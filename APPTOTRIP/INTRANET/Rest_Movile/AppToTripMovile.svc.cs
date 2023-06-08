@@ -68,7 +68,7 @@ namespace Rest_Movile
 
         [OperationContract]
         [WebGet(UriTemplate = "Movile_Consulta_Macro_Detalle/{nombre_macro}/{codigo_idioma}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        public string Movile_Consulta_Macro_Detalle(String nombre_macro,string codigo_idioma, string TokenApi)
+        public string Movile_Consulta_Macro_Detalle(String nombre_macro, string codigo_idioma, string TokenApi)
         {
             string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
             if (TokenApi == Desencripta)
@@ -604,15 +604,57 @@ namespace Rest_Movile
 
         [OperationContract]
         [WebGet(UriTemplate = "Movile_Respuesta_Encuesta/{id_encuesta}/{token_persona}/{respuesta}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
-        public string Movile_Respuesta_Encuesta(string id_encuesta,string token_persona,string respuesta, string TokenApi)
+        public string Movile_Respuesta_Encuesta(string id_encuesta, string token_persona, string respuesta, string TokenApi)
         {
             string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
             if (TokenApi == Desencripta)
             {
                 DataTable dataTable = new DataTable();
                 metodosMovile = new MetodosMovile();
-                dataTable = metodosMovile.mv_Respuesta_Encuesta(id_encuesta,token_persona, respuesta).Tables["Table"];
+                dataTable = metodosMovile.mv_Respuesta_Encuesta(id_encuesta, token_persona, respuesta).Tables["Table"];
                 string json = JsonConvert.SerializeObject(dataTable, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+            }
+            else
+            {
+                return "{resultado:Error token cliente}";
+            }
+
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Actualiza_persona/{correo_persona}/{token_persona}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string Movile_Actualiza_persona(string correo_persona, string token_persona, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            if (TokenApi == Desencripta)
+            {
+                DataTable dataTable = new DataTable();
+                metodosMovile = new MetodosMovile();
+                string json = JsonConvert.SerializeObject(metodosMovile.mv_Actualiza_persona(correo_persona, token_persona), Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+            }
+            else
+            {
+                return "{resultado:Error token cliente}";
+            }
+
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_consulta_persona_Recuperar/{correo_persona}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string Movile_consulta_persona_Recuperar(string correo_persona, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            if (TokenApi == Desencripta)
+            {
+                DataTable dataTable = new DataTable();
+                metodosMovile = new MetodosMovile();
+                string json = JsonConvert.SerializeObject(metodosMovile.mv_consulta_persona_Recuperar(correo_persona), Formatting.None);
                 byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
                 Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
                 return json;

@@ -111,7 +111,7 @@ namespace Rest_Movile
             }
         }
 
-        public DataSet mv_Consulta_Circuito_Macro( string codigo_idioma, string token_persona, string ids)
+        public DataSet mv_Consulta_Circuito_Macro(string codigo_idioma, string token_persona, string ids)
         {
             clsConexion objCon = new clsConexion();
 
@@ -587,6 +587,66 @@ namespace Rest_Movile
             catch (Exception e)
             {
                 CDITrace.EscribirLog("mv_Respuesta_Encuesta Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+        public DataSet mv_Actualiza_persona(string correo_persona, string token_persona)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("@correo_persona", correo_persona, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("@token_persona", token_persona, SqlDbType.VarChar, null));
+
+                DataSet a = objCon.ExecuteProcWS("", "", "mv_Actualiza_persona", parametrosEntrada, ref parametrosSalida);
+                return a;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("mv_Actualiza_persona Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataSet mv_envio_correo_persona(string Bandera, string correo_persona, string Codigo)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("@Bandera", Bandera, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("@correo_persona", correo_persona, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("@Codigo", Codigo, SqlDbType.VarChar, null));
+
+
+                DataSet a = objCon.ExecuteProcWS("", "", "mv_envio_correo_persona", parametrosEntrada, ref parametrosSalida);
+                return a;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("mv_envio_correo_persona Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataSet mv_consulta_persona_Recuperar(string correo_persona)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("@correo_persona", correo_persona, SqlDbType.VarChar, null));
+
+                DataSet a = objCon.ExecuteProcWS("", "", "mv_consulta_persona_Recuperar", parametrosEntrada, ref parametrosSalida);
+                return a;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("mv_consulta_persona_Recuperar Falla excepción: " + e.Message, CDITrace.Tipo.Error);
                 throw e;
             }
         }
