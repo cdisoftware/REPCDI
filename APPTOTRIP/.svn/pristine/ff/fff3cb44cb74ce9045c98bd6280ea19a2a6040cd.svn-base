@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Este archivo se usa en el proceso de publicación y empaquetado del proyecto web. Para personalizar el comportamiento de este proceso,
+edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 para obtener más información. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>A:\WsRest</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="AppToTripMovile.svc">
+      <publishTime>12/27/2019 11:30:45</publishTime>
+    </File>
+    <File Include="bin/CDI.Comun.dll">
+      <publishTime>12/27/2019 11:25:26</publishTime>
+    </File>
+    <File Include="bin/CDI.Comun.pdb">
+      <publishTime>12/27/2019 11:25:26</publishTime>
+    </File>
+    <File Include="bin/CT.ADMIN.BL.dll">
+      <publishTime>11/18/2019 17:16:15</publishTime>
+    </File>
+    <File Include="bin/CT.ADMIN.BL.pdb">
+      <publishTime>11/18/2019 17:16:15</publishTime>
+    </File>
+    <File Include="bin/Ent_BpmNet.dll">
+      <publishTime>10/16/2019 08:37:54</publishTime>
+    </File>
+    <File Include="bin/Ent_BpmNet.pdb">
+      <publishTime>10/16/2019 08:37:54</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>04/22/2019 01:06:16</publishTime>
+    </File>
+    <File Include="bin/Rest_Movile.dll">
+      <publishTime>02/14/2020 17:43:35</publishTime>
+    </File>
+    <File Include="bin/Rest_Movile.pdb">
+      <publishTime>02/14/2020 17:43:35</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>02/05/2020 10:57:25</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

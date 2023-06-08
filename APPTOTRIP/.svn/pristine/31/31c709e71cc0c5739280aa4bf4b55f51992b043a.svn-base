@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="crearPQRPr">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="origen" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="crearPQRPrResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="crearPQRPrResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="crearPQR">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="origen" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="crearPQRResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="crearPQRResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="crearPQRPrSoapIn">
+    <wsdl:part name="parameters" element="tns:crearPQRPr" />
+  </wsdl:message>
+  <wsdl:message name="crearPQRPrSoapOut">
+    <wsdl:part name="parameters" element="tns:crearPQRPrResponse" />
+  </wsdl:message>
+  <wsdl:message name="crearPQRSoapIn">
+    <wsdl:part name="parameters" element="tns:crearPQR" />
+  </wsdl:message>
+  <wsdl:message name="crearPQRSoapOut">
+    <wsdl:part name="parameters" element="tns:crearPQRResponse" />
+  </wsdl:message>
+  <wsdl:message name="crearPQRPrHttpGetIn">
+    <wsdl:part name="id" type="s:string" />
+    <wsdl:part name="origen" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="crearPQRPrHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="crearPQRHttpGetIn">
+    <wsdl:part name="id" type="s:string" />
+    <wsdl:part name="origen" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="crearPQRHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="crearPQRPrHttpPostIn">
+    <wsdl:part name="id" type="s:string" />
+    <wsdl:part name="origen" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="crearPQRPrHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="crearPQRHttpPostIn">
+    <wsdl:part name="id" type="s:string" />
+    <wsdl:part name="origen" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="crearPQRHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="wsPQRSoap">
+    <wsdl:operation name="crearPQRPr">
+      <wsdl:input message="tns:crearPQRPrSoapIn" />
+      <wsdl:output message="tns:crearPQRPrSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="crearPQR">
+      <wsdl:input message="tns:crearPQRSoapIn" />
+      <wsdl:output message="tns:crearPQRSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="wsPQRHttpGet">
+    <wsdl:operation name="crearPQRPr">
+      <wsdl:input message="tns:crearPQRPrHttpGetIn" />
+      <wsdl:output message="tns:crearPQRPrHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="crearPQR">
+      <wsdl:input message="tns:crearPQRHttpGetIn" />
+      <wsdl:output message="tns:crearPQRHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="wsPQRHttpPost">
+    <wsdl:operation name="crearPQRPr">
+      <wsdl:input message="tns:crearPQRPrHttpPostIn" />
+      <wsdl:output message="tns:crearPQRPrHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="crearPQR">
+      <wsdl:input message="tns:crearPQRHttpPostIn" />
+      <wsdl:output message="tns:crearPQRHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="wsPQRSoap" type="tns:wsPQRSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="crearPQRPr">
+      <soap:operation soapAction="http://tempuri.org/crearPQRPr" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="crearPQR">
+      <soap:operation soapAction="http://tempuri.org/crearPQR" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsPQRSoap12" type="tns:wsPQRSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="crearPQRPr">
+      <soap12:operation soapAction="http://tempuri.org/crearPQRPr" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="crearPQR">
+      <soap12:operation soapAction="http://tempuri.org/crearPQR" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsPQRHttpGet" type="tns:wsPQRHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="crearPQRPr">
+      <http:operation location="/crearPQRPr" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="crearPQR">
+      <http:operation location="/crearPQR" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsPQRHttpPost" type="tns:wsPQRHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="crearPQRPr">
+      <http:operation location="/crearPQRPr" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="crearPQR">
+      <http:operation location="/crearPQR" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="wsPQR">
+    <wsdl:port name="wsPQRSoap" binding="tns:wsPQRSoap">
+      <soap:address location="http://190.147.38.91:8005/CRMPQR/wsPQR.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsPQRSoap12" binding="tns:wsPQRSoap12">
+      <soap12:address location="http://190.147.38.91:8005/CRMPQR/wsPQR.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsPQRHttpGet" binding="tns:wsPQRHttpGet">
+      <http:address location="http://190.147.38.91:8005/CRMPQR/wsPQR.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsPQRHttpPost" binding="tns:wsPQRHttpPost">
+      <http:address location="http://190.147.38.91:8005/CRMPQR/wsPQR.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

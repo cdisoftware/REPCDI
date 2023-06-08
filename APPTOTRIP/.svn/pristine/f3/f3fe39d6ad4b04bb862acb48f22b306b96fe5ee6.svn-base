@@ -1,0 +1,1842 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="pa_Actualizar_Usuario">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IdUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Nombres" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Apellidos" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TipoDocumento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DocumentoUsuario" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Ciudad" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="FechaNacimiento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NumeroCertificado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VigenciaCertificado" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Actualizar_UsuarioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Actualizar_UsuarioResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consulta_Circuito">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CodIdioma" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_usuario" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consulta_CircuitoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Consulta_CircuitoResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_Categorias">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CodIdioma" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_CategoriasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Consultar_CategoriasResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_Ciudades">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CodPais" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_CiudadesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Consultar_CiudadesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_ImagenSitio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IdSitio" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_ImagenSitioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Consultar_ImagenSitioResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_Paises">
+        <s:complexType />
+      </s:element>
+      <s:element name="pa_Consultar_PaisesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Consultar_PaisesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_Sitios">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CodIdioma" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IdCircuito" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_SitiosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Consultar_SitiosResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_TipoId">
+        <s:complexType />
+      </s:element>
+      <s:element name="pa_Consultar_TipoIdResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Consultar_TipoIdResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_Usuario">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IdUsuario" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_UsuarioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Consultar_UsuarioResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Delete_Circuito">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id_circuito" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Delete_CircuitoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Delete_CircuitoResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Delete_Imagenes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id_imagen" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Delete_ImagenesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Delete_ImagenesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Delete_Sitio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Id_Sitio" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Delete_SitioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Delete_SitioResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Insert_Circuito">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="contexto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion_corta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recomendaciones" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="equipamento" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_rango_edad" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tiempo_estimado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_categoria" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_ciudad" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_usuario" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="imagen" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="imagen_img" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="valor" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="otra_moneda" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Insert_CircuitoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Insert_CircuitoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Insert_ImagenSitio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="imagen" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="imagen_img" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="orden" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_sitio" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Insert_ImagenSitioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Insert_ImagenSitioResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Insert_Sitio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="latitud" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="longitud" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="direccion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="costo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion_corta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="equipamento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recomendaciones" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ira" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="horario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tiempo_estimado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telefono_sitio" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_circuito" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="orden" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Insert_SitioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Insert_SitioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Inserta_Usuario">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="nombres_usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="apellido_usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tipo_documento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="documento_usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="correo_usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fecha_nacimiento" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ciudad" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="clave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="foto_cuenta" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="perfil" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="numero_certificado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="vigencia_certificado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="foto_certificado" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="estado" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Inserta_UsuarioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Inserta_UsuarioResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Recuperar_Usuario">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Usuario" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Recuperar_UsuarioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Recuperar_UsuarioResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Update_Circuito">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id_circuito" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="contexto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion_corta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recomendaciones" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="equipamento" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_rango_edad" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="tiempo_estimado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_categoria" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="imagen" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="imagen_img" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="valor" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="otra_moneda" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Update_CircuitoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Update_CircuitoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Update_ImagenSitio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="imagen" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="orden" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_sitio" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Update_ImagenSitioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Update_ImagenSitioResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Update_Sitio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id_sitio" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="latitud" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="longitud" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion_corta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="direccion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="costo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="equipamento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recomendaciones" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ira" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="horario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tiempo_estimado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telefono_sitio" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_circuito" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="orden" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Update_SitioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Update_SitioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Send_Mail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Correo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Asunto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Mensaje" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Send_MailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Send_MailResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Traducir">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="text" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Entrada" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Salida" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_TraducirResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_TraducirResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Insert_Categoriar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="nombre_categoria" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Insert_CategoriarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Insert_CategoriarResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Validacion_Estado">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id_usuario" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Validacion_EstadoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Validacion_EstadoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Insert_Tduracion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tabla" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="texto" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Insert_TduracionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Insert_TduracionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consulta_Generica">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tabla" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consulta_GenericaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Consulta_GenericaResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consulta_Generica_Moneda">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tabla" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consulta_Generica_MonedaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Consulta_Generica_MonedaResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Update_Imagen_Circuito">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="imagen" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="imagen_img" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id_circuito" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Update_Imagen_CircuitoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Update_Imagen_CircuitoResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Update_Circuito_2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="fk_categoria" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="valor" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="otra_moneda" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_rango_edad" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="id_circuito" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="contexto" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion_corta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recomendaciones" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="equipamento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tiempo_estimado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="imagen" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="imagen_img" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Update_Circuito_2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Update_Circuito_2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Update_Sitio_2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="fk_circuito" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="orden" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="id_sitio" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="latitud" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="longitud" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="direccion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="costo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion_corta" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="equipamento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recomendaciones" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ira" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="horario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tiempo_estimado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telefono_sitio" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Update_Sitio_2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Update_Sitio_2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GeneraStream">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tabla" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="campo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cadena" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GeneraStreamResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GeneraStreamResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Actualiza_General">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tabla" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="campo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="valor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Actualiza_GeneralResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Actualiza_GeneralResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Insert_General">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tabla" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clave" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="campo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="valor" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Insert_GeneralResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Insert_GeneralResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="generastream_programado">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tabla" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="generastream_programadoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="generastream_programadoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="validar_traduce">
+        <s:complexType />
+      </s:element>
+      <s:element name="validar_traduceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="validar_traduceResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="validar_stream">
+        <s:complexType />
+      </s:element>
+      <s:element name="validar_streamResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="validar_streamResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_audios">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="fk_circuito" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="pa_Consultar_audiosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pa_Consultar_audiosResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="pa_Actualizar_UsuarioSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Actualizar_Usuario" />
+  </wsdl:message>
+  <wsdl:message name="pa_Actualizar_UsuarioSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Actualizar_UsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consulta_CircuitoSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Consulta_Circuito" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consulta_CircuitoSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Consulta_CircuitoResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_CategoriasSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_Categorias" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_CategoriasSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_CategoriasResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_CiudadesSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_Ciudades" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_CiudadesSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_CiudadesResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_ImagenSitioSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_ImagenSitio" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_ImagenSitioSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_ImagenSitioResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_PaisesSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_Paises" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_PaisesSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_PaisesResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_SitiosSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_Sitios" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_SitiosSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_SitiosResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_TipoIdSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_TipoId" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_TipoIdSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_TipoIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_UsuarioSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_Usuario" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_UsuarioSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_UsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Delete_CircuitoSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Delete_Circuito" />
+  </wsdl:message>
+  <wsdl:message name="pa_Delete_CircuitoSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Delete_CircuitoResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Delete_ImagenesSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Delete_Imagenes" />
+  </wsdl:message>
+  <wsdl:message name="pa_Delete_ImagenesSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Delete_ImagenesResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Delete_SitioSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Delete_Sitio" />
+  </wsdl:message>
+  <wsdl:message name="pa_Delete_SitioSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Delete_SitioResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Insert_CircuitoSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Insert_Circuito" />
+  </wsdl:message>
+  <wsdl:message name="pa_Insert_CircuitoSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Insert_CircuitoResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Insert_ImagenSitioSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Insert_ImagenSitio" />
+  </wsdl:message>
+  <wsdl:message name="pa_Insert_ImagenSitioSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Insert_ImagenSitioResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Insert_SitioSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Insert_Sitio" />
+  </wsdl:message>
+  <wsdl:message name="pa_Insert_SitioSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Insert_SitioResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Inserta_UsuarioSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Inserta_Usuario" />
+  </wsdl:message>
+  <wsdl:message name="pa_Inserta_UsuarioSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Inserta_UsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Recuperar_UsuarioSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Recuperar_Usuario" />
+  </wsdl:message>
+  <wsdl:message name="pa_Recuperar_UsuarioSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Recuperar_UsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Update_CircuitoSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Update_Circuito" />
+  </wsdl:message>
+  <wsdl:message name="pa_Update_CircuitoSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Update_CircuitoResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Update_ImagenSitioSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Update_ImagenSitio" />
+  </wsdl:message>
+  <wsdl:message name="pa_Update_ImagenSitioSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Update_ImagenSitioResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Update_SitioSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Update_Sitio" />
+  </wsdl:message>
+  <wsdl:message name="pa_Update_SitioSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Update_SitioResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Send_MailSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Send_Mail" />
+  </wsdl:message>
+  <wsdl:message name="pa_Send_MailSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Send_MailResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_TraducirSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Traducir" />
+  </wsdl:message>
+  <wsdl:message name="pa_TraducirSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_TraducirResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Insert_CategoriarSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Insert_Categoriar" />
+  </wsdl:message>
+  <wsdl:message name="pa_Insert_CategoriarSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Insert_CategoriarResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Validacion_EstadoSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Validacion_Estado" />
+  </wsdl:message>
+  <wsdl:message name="pa_Validacion_EstadoSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Validacion_EstadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Insert_TduracionSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Insert_Tduracion" />
+  </wsdl:message>
+  <wsdl:message name="pa_Insert_TduracionSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Insert_TduracionResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consulta_GenericaSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Consulta_Generica" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consulta_GenericaSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Consulta_GenericaResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consulta_Generica_MonedaSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Consulta_Generica_Moneda" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consulta_Generica_MonedaSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Consulta_Generica_MonedaResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Update_Imagen_CircuitoSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Update_Imagen_Circuito" />
+  </wsdl:message>
+  <wsdl:message name="pa_Update_Imagen_CircuitoSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Update_Imagen_CircuitoResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Update_Circuito_2SoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Update_Circuito_2" />
+  </wsdl:message>
+  <wsdl:message name="pa_Update_Circuito_2SoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Update_Circuito_2Response" />
+  </wsdl:message>
+  <wsdl:message name="pa_Update_Sitio_2SoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Update_Sitio_2" />
+  </wsdl:message>
+  <wsdl:message name="pa_Update_Sitio_2SoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Update_Sitio_2Response" />
+  </wsdl:message>
+  <wsdl:message name="GeneraStreamSoapIn">
+    <wsdl:part name="parameters" element="tns:GeneraStream" />
+  </wsdl:message>
+  <wsdl:message name="GeneraStreamSoapOut">
+    <wsdl:part name="parameters" element="tns:GeneraStreamResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Actualiza_GeneralSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Actualiza_General" />
+  </wsdl:message>
+  <wsdl:message name="pa_Actualiza_GeneralSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Actualiza_GeneralResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Insert_GeneralSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Insert_General" />
+  </wsdl:message>
+  <wsdl:message name="pa_Insert_GeneralSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Insert_GeneralResponse" />
+  </wsdl:message>
+  <wsdl:message name="generastream_programadoSoapIn">
+    <wsdl:part name="parameters" element="tns:generastream_programado" />
+  </wsdl:message>
+  <wsdl:message name="generastream_programadoSoapOut">
+    <wsdl:part name="parameters" element="tns:generastream_programadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="validar_traduceSoapIn">
+    <wsdl:part name="parameters" element="tns:validar_traduce" />
+  </wsdl:message>
+  <wsdl:message name="validar_traduceSoapOut">
+    <wsdl:part name="parameters" element="tns:validar_traduceResponse" />
+  </wsdl:message>
+  <wsdl:message name="validar_streamSoapIn">
+    <wsdl:part name="parameters" element="tns:validar_stream" />
+  </wsdl:message>
+  <wsdl:message name="validar_streamSoapOut">
+    <wsdl:part name="parameters" element="tns:validar_streamResponse" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_audiosSoapIn">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_audios" />
+  </wsdl:message>
+  <wsdl:message name="pa_Consultar_audiosSoapOut">
+    <wsdl:part name="parameters" element="tns:pa_Consultar_audiosResponse" />
+  </wsdl:message>
+  <wsdl:portType name="AppToTripWSSoap">
+    <wsdl:operation name="pa_Actualizar_Usuario">
+      <wsdl:input message="tns:pa_Actualizar_UsuarioSoapIn" />
+      <wsdl:output message="tns:pa_Actualizar_UsuarioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consulta_Circuito">
+      <wsdl:input message="tns:pa_Consulta_CircuitoSoapIn" />
+      <wsdl:output message="tns:pa_Consulta_CircuitoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Categorias">
+      <wsdl:input message="tns:pa_Consultar_CategoriasSoapIn" />
+      <wsdl:output message="tns:pa_Consultar_CategoriasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Ciudades">
+      <wsdl:input message="tns:pa_Consultar_CiudadesSoapIn" />
+      <wsdl:output message="tns:pa_Consultar_CiudadesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_ImagenSitio">
+      <wsdl:input message="tns:pa_Consultar_ImagenSitioSoapIn" />
+      <wsdl:output message="tns:pa_Consultar_ImagenSitioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Paises">
+      <wsdl:input message="tns:pa_Consultar_PaisesSoapIn" />
+      <wsdl:output message="tns:pa_Consultar_PaisesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Sitios">
+      <wsdl:input message="tns:pa_Consultar_SitiosSoapIn" />
+      <wsdl:output message="tns:pa_Consultar_SitiosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_TipoId">
+      <wsdl:input message="tns:pa_Consultar_TipoIdSoapIn" />
+      <wsdl:output message="tns:pa_Consultar_TipoIdSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Usuario">
+      <wsdl:input message="tns:pa_Consultar_UsuarioSoapIn" />
+      <wsdl:output message="tns:pa_Consultar_UsuarioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Delete_Circuito">
+      <wsdl:input message="tns:pa_Delete_CircuitoSoapIn" />
+      <wsdl:output message="tns:pa_Delete_CircuitoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Delete_Imagenes">
+      <wsdl:input message="tns:pa_Delete_ImagenesSoapIn" />
+      <wsdl:output message="tns:pa_Delete_ImagenesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Delete_Sitio">
+      <wsdl:input message="tns:pa_Delete_SitioSoapIn" />
+      <wsdl:output message="tns:pa_Delete_SitioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_Circuito">
+      <wsdl:input message="tns:pa_Insert_CircuitoSoapIn" />
+      <wsdl:output message="tns:pa_Insert_CircuitoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_ImagenSitio">
+      <wsdl:input message="tns:pa_Insert_ImagenSitioSoapIn" />
+      <wsdl:output message="tns:pa_Insert_ImagenSitioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_Sitio">
+      <wsdl:input message="tns:pa_Insert_SitioSoapIn" />
+      <wsdl:output message="tns:pa_Insert_SitioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Inserta_Usuario">
+      <wsdl:input message="tns:pa_Inserta_UsuarioSoapIn" />
+      <wsdl:output message="tns:pa_Inserta_UsuarioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Recuperar_Usuario">
+      <wsdl:input message="tns:pa_Recuperar_UsuarioSoapIn" />
+      <wsdl:output message="tns:pa_Recuperar_UsuarioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Circuito">
+      <wsdl:input message="tns:pa_Update_CircuitoSoapIn" />
+      <wsdl:output message="tns:pa_Update_CircuitoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_ImagenSitio">
+      <wsdl:input message="tns:pa_Update_ImagenSitioSoapIn" />
+      <wsdl:output message="tns:pa_Update_ImagenSitioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Sitio">
+      <wsdl:input message="tns:pa_Update_SitioSoapIn" />
+      <wsdl:output message="tns:pa_Update_SitioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Send_Mail">
+      <wsdl:input message="tns:pa_Send_MailSoapIn" />
+      <wsdl:output message="tns:pa_Send_MailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Traducir">
+      <wsdl:input message="tns:pa_TraducirSoapIn" />
+      <wsdl:output message="tns:pa_TraducirSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_Categoriar">
+      <wsdl:input message="tns:pa_Insert_CategoriarSoapIn" />
+      <wsdl:output message="tns:pa_Insert_CategoriarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Validacion_Estado">
+      <wsdl:input message="tns:pa_Validacion_EstadoSoapIn" />
+      <wsdl:output message="tns:pa_Validacion_EstadoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_Tduracion">
+      <wsdl:input message="tns:pa_Insert_TduracionSoapIn" />
+      <wsdl:output message="tns:pa_Insert_TduracionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consulta_Generica">
+      <wsdl:input message="tns:pa_Consulta_GenericaSoapIn" />
+      <wsdl:output message="tns:pa_Consulta_GenericaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consulta_Generica_Moneda">
+      <wsdl:input message="tns:pa_Consulta_Generica_MonedaSoapIn" />
+      <wsdl:output message="tns:pa_Consulta_Generica_MonedaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Imagen_Circuito">
+      <wsdl:input message="tns:pa_Update_Imagen_CircuitoSoapIn" />
+      <wsdl:output message="tns:pa_Update_Imagen_CircuitoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Circuito_2">
+      <wsdl:input message="tns:pa_Update_Circuito_2SoapIn" />
+      <wsdl:output message="tns:pa_Update_Circuito_2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Sitio_2">
+      <wsdl:input message="tns:pa_Update_Sitio_2SoapIn" />
+      <wsdl:output message="tns:pa_Update_Sitio_2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GeneraStream">
+      <wsdl:input message="tns:GeneraStreamSoapIn" />
+      <wsdl:output message="tns:GeneraStreamSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Actualiza_General">
+      <wsdl:input message="tns:pa_Actualiza_GeneralSoapIn" />
+      <wsdl:output message="tns:pa_Actualiza_GeneralSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_General">
+      <wsdl:input message="tns:pa_Insert_GeneralSoapIn" />
+      <wsdl:output message="tns:pa_Insert_GeneralSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="generastream_programado">
+      <wsdl:input message="tns:generastream_programadoSoapIn" />
+      <wsdl:output message="tns:generastream_programadoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="validar_traduce">
+      <wsdl:input message="tns:validar_traduceSoapIn" />
+      <wsdl:output message="tns:validar_traduceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="validar_stream">
+      <wsdl:input message="tns:validar_streamSoapIn" />
+      <wsdl:output message="tns:validar_streamSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_audios">
+      <wsdl:input message="tns:pa_Consultar_audiosSoapIn" />
+      <wsdl:output message="tns:pa_Consultar_audiosSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AppToTripWSSoap" type="tns:AppToTripWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="pa_Actualizar_Usuario">
+      <soap:operation soapAction="http://tempuri.org/pa_Actualizar_Usuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consulta_Circuito">
+      <soap:operation soapAction="http://tempuri.org/pa_Consulta_Circuito" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Categorias">
+      <soap:operation soapAction="http://tempuri.org/pa_Consultar_Categorias" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Ciudades">
+      <soap:operation soapAction="http://tempuri.org/pa_Consultar_Ciudades" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_ImagenSitio">
+      <soap:operation soapAction="http://tempuri.org/pa_Consultar_ImagenSitio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Paises">
+      <soap:operation soapAction="http://tempuri.org/pa_Consultar_Paises" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Sitios">
+      <soap:operation soapAction="http://tempuri.org/pa_Consultar_Sitios" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_TipoId">
+      <soap:operation soapAction="http://tempuri.org/pa_Consultar_TipoId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Usuario">
+      <soap:operation soapAction="http://tempuri.org/pa_Consultar_Usuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Delete_Circuito">
+      <soap:operation soapAction="http://tempuri.org/pa_Delete_Circuito" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Delete_Imagenes">
+      <soap:operation soapAction="http://tempuri.org/pa_Delete_Imagenes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Delete_Sitio">
+      <soap:operation soapAction="http://tempuri.org/pa_Delete_Sitio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_Circuito">
+      <soap:operation soapAction="http://tempuri.org/pa_Insert_Circuito" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_ImagenSitio">
+      <soap:operation soapAction="http://tempuri.org/pa_Insert_ImagenSitio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_Sitio">
+      <soap:operation soapAction="http://tempuri.org/pa_Insert_Sitio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Inserta_Usuario">
+      <soap:operation soapAction="http://tempuri.org/pa_Inserta_Usuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Recuperar_Usuario">
+      <soap:operation soapAction="http://tempuri.org/pa_Recuperar_Usuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Circuito">
+      <soap:operation soapAction="http://tempuri.org/pa_Update_Circuito" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_ImagenSitio">
+      <soap:operation soapAction="http://tempuri.org/pa_Update_ImagenSitio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Sitio">
+      <soap:operation soapAction="http://tempuri.org/pa_Update_Sitio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Send_Mail">
+      <soap:operation soapAction="http://tempuri.org/pa_Send_Mail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Traducir">
+      <soap:operation soapAction="http://tempuri.org/pa_Traducir" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_Categoriar">
+      <soap:operation soapAction="http://tempuri.org/pa_Insert_Categoriar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Validacion_Estado">
+      <soap:operation soapAction="http://tempuri.org/pa_Validacion_Estado" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_Tduracion">
+      <soap:operation soapAction="http://tempuri.org/pa_Insert_Tduracion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consulta_Generica">
+      <soap:operation soapAction="http://tempuri.org/pa_Consulta_Generica" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consulta_Generica_Moneda">
+      <soap:operation soapAction="http://tempuri.org/pa_Consulta_Generica_Moneda" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Imagen_Circuito">
+      <soap:operation soapAction="http://tempuri.org/pa_Update_Imagen_Circuito" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Circuito_2">
+      <soap:operation soapAction="http://tempuri.org/pa_Update_Circuito_2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Sitio_2">
+      <soap:operation soapAction="http://tempuri.org/pa_Update_Sitio_2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GeneraStream">
+      <soap:operation soapAction="http://tempuri.org/GeneraStream" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Actualiza_General">
+      <soap:operation soapAction="http://tempuri.org/pa_Actualiza_General" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_General">
+      <soap:operation soapAction="http://tempuri.org/pa_Insert_General" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generastream_programado">
+      <soap:operation soapAction="http://tempuri.org/generastream_programado" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validar_traduce">
+      <soap:operation soapAction="http://tempuri.org/validar_traduce" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validar_stream">
+      <soap:operation soapAction="http://tempuri.org/validar_stream" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_audios">
+      <soap:operation soapAction="http://tempuri.org/pa_Consultar_audios" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="AppToTripWSSoap12" type="tns:AppToTripWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="pa_Actualizar_Usuario">
+      <soap12:operation soapAction="http://tempuri.org/pa_Actualizar_Usuario" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consulta_Circuito">
+      <soap12:operation soapAction="http://tempuri.org/pa_Consulta_Circuito" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Categorias">
+      <soap12:operation soapAction="http://tempuri.org/pa_Consultar_Categorias" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Ciudades">
+      <soap12:operation soapAction="http://tempuri.org/pa_Consultar_Ciudades" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_ImagenSitio">
+      <soap12:operation soapAction="http://tempuri.org/pa_Consultar_ImagenSitio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Paises">
+      <soap12:operation soapAction="http://tempuri.org/pa_Consultar_Paises" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Sitios">
+      <soap12:operation soapAction="http://tempuri.org/pa_Consultar_Sitios" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_TipoId">
+      <soap12:operation soapAction="http://tempuri.org/pa_Consultar_TipoId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_Usuario">
+      <soap12:operation soapAction="http://tempuri.org/pa_Consultar_Usuario" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Delete_Circuito">
+      <soap12:operation soapAction="http://tempuri.org/pa_Delete_Circuito" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Delete_Imagenes">
+      <soap12:operation soapAction="http://tempuri.org/pa_Delete_Imagenes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Delete_Sitio">
+      <soap12:operation soapAction="http://tempuri.org/pa_Delete_Sitio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_Circuito">
+      <soap12:operation soapAction="http://tempuri.org/pa_Insert_Circuito" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_ImagenSitio">
+      <soap12:operation soapAction="http://tempuri.org/pa_Insert_ImagenSitio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_Sitio">
+      <soap12:operation soapAction="http://tempuri.org/pa_Insert_Sitio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Inserta_Usuario">
+      <soap12:operation soapAction="http://tempuri.org/pa_Inserta_Usuario" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Recuperar_Usuario">
+      <soap12:operation soapAction="http://tempuri.org/pa_Recuperar_Usuario" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Circuito">
+      <soap12:operation soapAction="http://tempuri.org/pa_Update_Circuito" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_ImagenSitio">
+      <soap12:operation soapAction="http://tempuri.org/pa_Update_ImagenSitio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Sitio">
+      <soap12:operation soapAction="http://tempuri.org/pa_Update_Sitio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Send_Mail">
+      <soap12:operation soapAction="http://tempuri.org/pa_Send_Mail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Traducir">
+      <soap12:operation soapAction="http://tempuri.org/pa_Traducir" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_Categoriar">
+      <soap12:operation soapAction="http://tempuri.org/pa_Insert_Categoriar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Validacion_Estado">
+      <soap12:operation soapAction="http://tempuri.org/pa_Validacion_Estado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_Tduracion">
+      <soap12:operation soapAction="http://tempuri.org/pa_Insert_Tduracion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consulta_Generica">
+      <soap12:operation soapAction="http://tempuri.org/pa_Consulta_Generica" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consulta_Generica_Moneda">
+      <soap12:operation soapAction="http://tempuri.org/pa_Consulta_Generica_Moneda" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Imagen_Circuito">
+      <soap12:operation soapAction="http://tempuri.org/pa_Update_Imagen_Circuito" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Circuito_2">
+      <soap12:operation soapAction="http://tempuri.org/pa_Update_Circuito_2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Update_Sitio_2">
+      <soap12:operation soapAction="http://tempuri.org/pa_Update_Sitio_2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GeneraStream">
+      <soap12:operation soapAction="http://tempuri.org/GeneraStream" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Actualiza_General">
+      <soap12:operation soapAction="http://tempuri.org/pa_Actualiza_General" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Insert_General">
+      <soap12:operation soapAction="http://tempuri.org/pa_Insert_General" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generastream_programado">
+      <soap12:operation soapAction="http://tempuri.org/generastream_programado" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validar_traduce">
+      <soap12:operation soapAction="http://tempuri.org/validar_traduce" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validar_stream">
+      <soap12:operation soapAction="http://tempuri.org/validar_stream" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="pa_Consultar_audios">
+      <soap12:operation soapAction="http://tempuri.org/pa_Consultar_audios" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AppToTripWS">
+    <wsdl:port name="AppToTripWSSoap" binding="tns:AppToTripWSSoap">
+      <soap:address location="http://api.apptotrip.com/AppToTripPrbWS/AppToTripWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="AppToTripWSSoap12" binding="tns:AppToTripWSSoap12">
+      <soap12:address location="http://api.apptotrip.com/AppToTripPrbWS/AppToTripWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

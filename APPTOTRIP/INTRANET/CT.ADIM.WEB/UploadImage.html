@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <!-- Ignite UI Required Combined CSS Files -->
+    <link href="http://cdn-na.infragistics.com/igniteui/2018.2/latest/css/themes/infragistics/infragistics.theme.css" rel="stylesheet" />
+    <link href="http://cdn-na.infragistics.com/igniteui/2018.2/latest/css/structure/infragistics.css" rel="stylesheet" />
+
+    <script src="http://ajax.aspnetcdn.com/ajax/modernizr/modernizr-2.8.3.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+
+    <!-- Ignite UI Required Combined JavaScript Files -->
+    <script src="http://cdn-na.infragistics.com/igniteui/2018.2/latest/js/infragistics.core.js"></script>
+    <script src="http://cdn-na.infragistics.com/igniteui/2018.2/latest/js/infragistics.lob.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_BcdT_heUpoSU7iFbndqI_rxmMbFsHAA&callback=initMap" async defer></script>
+    <style>
+        .s-clearfix {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .mb10 {
+            margin-bottom: 10px;
+        }
+
+        .ml5 {
+            margin-left: 5px;
+        }
+
+        .mt4 {
+            margin-top: 4px;
+        }
+
+        .border-box {
+            box-sizing: border-box;
+        }
+
+        .igui-filter-f-left {
+            float: left;
+        }
+
+        .igui-filter-f-right {
+            float: right;
+        }
+
+        .igui-filter-checkbox label {
+            cursor: pointer;
+        }
+    </style>
+
+    <style>
+        #map {
+            height: 100%;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <script>
+        var marker;
+
+        function initMap() {
+            alert('jasd');
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: { lat: 4.579284, lng: -74.124561 }
+            });
+
+            marker = new google.maps.Marker({
+                map: map,
+                draggable: true,
+                animation: google.maps.Animation.DROP,
+                position: { lat: 4.579284, lng: -74.124561 }
+            });
+            marker.addListener('click', toggleBounce);
+        }
+
+        function toggleBounce() {
+            if (marker.getAnimation() !== null) {
+                marker.setAnimation(null);
+            } else {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+                alert("posision " + marker.getPosition());
+            }
+        }
+    </script>
+</head>
+<body onload="initMap()">
+    <div id="map"></div>
+    <div class="border-box igui-filter-checkbox">
+        <div class="mb10 s-clearfix">
+            <input class="mr5 igui-filter-f-left" id="useSingleRequestCheck" type="checkbox" />
+            <label class="ml5 igui-filter-f-right mt4" for="useSingleRequestCheck">Use a Single Request for Uploading Multiple Files</label>
+        </div>
+    </div>
+
+    <div id="igUpload1"></div>
+    <div id="error-message" style="color: #FF0000; font-weight: bold;"></div>
+
+    <script>
+        $(function () {
+            var buttonLabel = $.ig.Upload.locale.labelUploadButton;
+            if (Modernizr.input.multiple) {
+                buttonLabel = "Drag and Drop Files Here <br/> or Click to Select From a Dialog";
+            }
+            $("#igUpload1").igUpload({
+                mode: 'multiple',
+                multipleFiles: true,
+                maxUploadedFiles: 5,
+                maxSimultaneousFilesUploads: 2,
+                progressUrl: "https://www.igniteui.com/IGUploadStatusHandler.ashx",
+                controlId: "serverID1",
+                labelUploadButton: buttonLabel,
+                onError: function (e, args) {
+                    showAlert(args);
+                }
+            });
+            if (Modernizr.input.multiple) {
+                $(".ui-igstartupbrowsebutton").attr("style", "width: 320px; height: 80px;");
+            }
+            $("#useSingleRequestCheck").igCheckboxEditor({
+                checked: false,
+                valueChanged: function (evt, ui) {
+                    $("#igUpload1").igUpload("option", "useSingleRequest", ui.newState);
+                }
+            });
+        });
+
+        function showAlert(args) {
+            $("#error-message").html(args.errorMessage).stop(true, true).fadeIn(500).delay(3000).fadeOut(500);
+        }
+    </script>
+
+</body>
+</html>

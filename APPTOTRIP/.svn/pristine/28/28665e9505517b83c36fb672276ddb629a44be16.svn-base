@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Insert_Circuito">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recomendaciones" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="equipamento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="edad" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="horario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tiempo_estimado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_categoria" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Insert_CircuitoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Insert_CircuitoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_Circuito">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id_circuito" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recomendaciones" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="equipamento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="edad" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="horario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tiempo_estimado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_categoria" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_CircuitoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Update_CircuitoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Insert_Sitio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="latitud" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="longitud" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="direccion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="costo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ciudad" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pais" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="equipamento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recomendaciones" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tiempo_estimado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="edad" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="horario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telefono_sitio" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id_circuito" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Insert_SitioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Insert_SitioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_Sitio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id_sitio" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="latitud" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="longitud" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="direccion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="costo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ciudad" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pais" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="nombre" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="descripcion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="equipamento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="recomendaciones" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="tiempo_estimado" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="edad" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="horario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codigo_idioma" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telefono_sitio" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_SitioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Update_SitioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Insert_Imagen_Sitio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url_imagen" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fk_sitio" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="orden" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Insert_Imagen_SitioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Insert_Imagen_SitioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_Imagen_Sitio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id_imagen" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="orden" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_Imagen_SitioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Update_Imagen_SitioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Delete_Circuito">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id_circuito" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Delete_CircuitoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Delete_CircuitoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Delete_Sitio">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id_sitio" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Delete_SitioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Delete_SitioResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Delete_Imagenes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id_imagen" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Delete_ImagenesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Delete_ImagenesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update_Info_Web">
+        <s:complexType />
+      </s:element>
+      <s:element name="Update_Info_WebResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Update_Info_WebResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TextSpeak">
+        <s:complexType />
+      </s:element>
+      <s:element name="TextSpeakResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="Insert_CircuitoSoapIn">
+    <wsdl:part name="parameters" element="tns:Insert_Circuito" />
+  </wsdl:message>
+  <wsdl:message name="Insert_CircuitoSoapOut">
+    <wsdl:part name="parameters" element="tns:Insert_CircuitoResponse" />
+  </wsdl:message>
+  <wsdl:message name="Update_CircuitoSoapIn">
+    <wsdl:part name="parameters" element="tns:Update_Circuito" />
+  </wsdl:message>
+  <wsdl:message name="Update_CircuitoSoapOut">
+    <wsdl:part name="parameters" element="tns:Update_CircuitoResponse" />
+  </wsdl:message>
+  <wsdl:message name="Insert_SitioSoapIn">
+    <wsdl:part name="parameters" element="tns:Insert_Sitio" />
+  </wsdl:message>
+  <wsdl:message name="Insert_SitioSoapOut">
+    <wsdl:part name="parameters" element="tns:Insert_SitioResponse" />
+  </wsdl:message>
+  <wsdl:message name="Update_SitioSoapIn">
+    <wsdl:part name="parameters" element="tns:Update_Sitio" />
+  </wsdl:message>
+  <wsdl:message name="Update_SitioSoapOut">
+    <wsdl:part name="parameters" element="tns:Update_SitioResponse" />
+  </wsdl:message>
+  <wsdl:message name="Insert_Imagen_SitioSoapIn">
+    <wsdl:part name="parameters" element="tns:Insert_Imagen_Sitio" />
+  </wsdl:message>
+  <wsdl:message name="Insert_Imagen_SitioSoapOut">
+    <wsdl:part name="parameters" element="tns:Insert_Imagen_SitioResponse" />
+  </wsdl:message>
+  <wsdl:message name="Update_Imagen_SitioSoapIn">
+    <wsdl:part name="parameters" element="tns:Update_Imagen_Sitio" />
+  </wsdl:message>
+  <wsdl:message name="Update_Imagen_SitioSoapOut">
+    <wsdl:part name="parameters" element="tns:Update_Imagen_SitioResponse" />
+  </wsdl:message>
+  <wsdl:message name="Delete_CircuitoSoapIn">
+    <wsdl:part name="parameters" element="tns:Delete_Circuito" />
+  </wsdl:message>
+  <wsdl:message name="Delete_CircuitoSoapOut">
+    <wsdl:part name="parameters" element="tns:Delete_CircuitoResponse" />
+  </wsdl:message>
+  <wsdl:message name="Delete_SitioSoapIn">
+    <wsdl:part name="parameters" element="tns:Delete_Sitio" />
+  </wsdl:message>
+  <wsdl:message name="Delete_SitioSoapOut">
+    <wsdl:part name="parameters" element="tns:Delete_SitioResponse" />
+  </wsdl:message>
+  <wsdl:message name="Delete_ImagenesSoapIn">
+    <wsdl:part name="parameters" element="tns:Delete_Imagenes" />
+  </wsdl:message>
+  <wsdl:message name="Delete_ImagenesSoapOut">
+    <wsdl:part name="parameters" element="tns:Delete_ImagenesResponse" />
+  </wsdl:message>
+  <wsdl:message name="Update_Info_WebSoapIn">
+    <wsdl:part name="parameters" element="tns:Update_Info_Web" />
+  </wsdl:message>
+  <wsdl:message name="Update_Info_WebSoapOut">
+    <wsdl:part name="parameters" element="tns:Update_Info_WebResponse" />
+  </wsdl:message>
+  <wsdl:message name="TextSpeakSoapIn">
+    <wsdl:part name="parameters" element="tns:TextSpeak" />
+  </wsdl:message>
+  <wsdl:message name="TextSpeakSoapOut">
+    <wsdl:part name="parameters" element="tns:TextSpeakResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WSAdminSoap">
+    <wsdl:operation name="Insert_Circuito">
+      <wsdl:input message="tns:Insert_CircuitoSoapIn" />
+      <wsdl:output message="tns:Insert_CircuitoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Update_Circuito">
+      <wsdl:input message="tns:Update_CircuitoSoapIn" />
+      <wsdl:output message="tns:Update_CircuitoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Insert_Sitio">
+      <wsdl:input message="tns:Insert_SitioSoapIn" />
+      <wsdl:output message="tns:Insert_SitioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Update_Sitio">
+      <wsdl:input message="tns:Update_SitioSoapIn" />
+      <wsdl:output message="tns:Update_SitioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Insert_Imagen_Sitio">
+      <wsdl:input message="tns:Insert_Imagen_SitioSoapIn" />
+      <wsdl:output message="tns:Insert_Imagen_SitioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Update_Imagen_Sitio">
+      <wsdl:input message="tns:Update_Imagen_SitioSoapIn" />
+      <wsdl:output message="tns:Update_Imagen_SitioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Delete_Circuito">
+      <wsdl:input message="tns:Delete_CircuitoSoapIn" />
+      <wsdl:output message="tns:Delete_CircuitoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Delete_Sitio">
+      <wsdl:input message="tns:Delete_SitioSoapIn" />
+      <wsdl:output message="tns:Delete_SitioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Delete_Imagenes">
+      <wsdl:input message="tns:Delete_ImagenesSoapIn" />
+      <wsdl:output message="tns:Delete_ImagenesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Update_Info_Web">
+      <wsdl:input message="tns:Update_Info_WebSoapIn" />
+      <wsdl:output message="tns:Update_Info_WebSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TextSpeak">
+      <wsdl:input message="tns:TextSpeakSoapIn" />
+      <wsdl:output message="tns:TextSpeakSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSAdminSoap" type="tns:WSAdminSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Insert_Circuito">
+      <soap:operation soapAction="http://tempuri.org/Insert_Circuito" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_Circuito">
+      <soap:operation soapAction="http://tempuri.org/Update_Circuito" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Insert_Sitio">
+      <soap:operation soapAction="http://tempuri.org/Insert_Sitio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_Sitio">
+      <soap:operation soapAction="http://tempuri.org/Update_Sitio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Insert_Imagen_Sitio">
+      <soap:operation soapAction="http://tempuri.org/Insert_Imagen_Sitio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_Imagen_Sitio">
+      <soap:operation soapAction="http://tempuri.org/Update_Imagen_Sitio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete_Circuito">
+      <soap:operation soapAction="http://tempuri.org/Delete_Circuito" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete_Sitio">
+      <soap:operation soapAction="http://tempuri.org/Delete_Sitio" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete_Imagenes">
+      <soap:operation soapAction="http://tempuri.org/Delete_Imagenes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_Info_Web">
+      <soap:operation soapAction="http://tempuri.org/Update_Info_Web" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TextSpeak">
+      <soap:operation soapAction="http://tempuri.org/TextSpeak" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WSAdminSoap12" type="tns:WSAdminSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Insert_Circuito">
+      <soap12:operation soapAction="http://tempuri.org/Insert_Circuito" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_Circuito">
+      <soap12:operation soapAction="http://tempuri.org/Update_Circuito" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Insert_Sitio">
+      <soap12:operation soapAction="http://tempuri.org/Insert_Sitio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_Sitio">
+      <soap12:operation soapAction="http://tempuri.org/Update_Sitio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Insert_Imagen_Sitio">
+      <soap12:operation soapAction="http://tempuri.org/Insert_Imagen_Sitio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_Imagen_Sitio">
+      <soap12:operation soapAction="http://tempuri.org/Update_Imagen_Sitio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete_Circuito">
+      <soap12:operation soapAction="http://tempuri.org/Delete_Circuito" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete_Sitio">
+      <soap12:operation soapAction="http://tempuri.org/Delete_Sitio" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete_Imagenes">
+      <soap12:operation soapAction="http://tempuri.org/Delete_Imagenes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update_Info_Web">
+      <soap12:operation soapAction="http://tempuri.org/Update_Info_Web" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TextSpeak">
+      <soap12:operation soapAction="http://tempuri.org/TextSpeak" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSAdmin">
+    <wsdl:port name="WSAdminSoap" binding="tns:WSAdminSoap">
+      <soap:address location="http://www.akyvoy.com/wsct_pr/WSAdmin.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WSAdminSoap12" binding="tns:WSAdminSoap12">
+      <soap12:address location="http://www.akyvoy.com/wsct_pr/WSAdmin.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
