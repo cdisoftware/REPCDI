@@ -40,6 +40,5 @@ C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\Rest_Movile\bin\CT.
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\Rest_Movile\bin\Newtonsoft.Json.dll
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\Rest_Movile\bin\CDI.Comun.pdb
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\Rest_Movile\bin\CT.ADMIN.BL.pdb
-C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\Rest_Movile\bin\Ent_BpmNet.pdb
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\Rest_Movile\bin\Newtonsoft.Json.xml
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\Rest_Movile\obj\Debug\Rest_Movile.csproj.CopyComplete

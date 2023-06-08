@@ -43,10 +43,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CT.ADMIN.BL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\CT.ADMIN.BL\bin\Debug\CT.ADMIN.BL.dll</HintPath>
-    </Reference>
     <Reference Include="Ent_BpmNet">
       <HintPath>..\..\..\..\..\..\BpmNet\Ent_BpmNet\bin\Debug\Ent_BpmNet.dll</HintPath>
     </Reference>
@@ -101,6 +97,10 @@
     <ProjectReference Include="..\..\..\Librerias Comun\Comun\CDI.Comun.csproj">
       <Project>{091b9c86-8373-42ce-ae4b-76efa9ae5c86}</Project>
       <Name>CDI.Comun</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CT.ADMIN.BL\CT.ADMIN.BL.csproj">
+      <Project>{f7018505-0812-49f4-b494-e6128b17ece5}</Project>
+      <Name>CT.ADMIN.BL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

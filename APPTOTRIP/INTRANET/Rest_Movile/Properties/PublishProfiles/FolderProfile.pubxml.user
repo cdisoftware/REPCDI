@@ -6,41 +6,46 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>A:\WsRest</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\juan7\Documents\Servicios_AppToTrip</_PublishTargetUrl>
+    <History>True|2023-06-08T20:48:59.9831692Z;True|2023-06-08T15:39:19.8684955-05:00;True|2023-06-08T15:37:14.6508094-05:00;True|2023-06-08T15:31:57.1769037-05:00;True|2023-06-08T15:08:07.4346100-05:00;False|2023-06-08T14:23:30.7872555-05:00;</History>
+    <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
     <File Include="AppToTripMovile.svc">
-      <publishTime>12/27/2019 11:30:45</publishTime>
+      <publishTime>06/08/2023 11:56:13</publishTime>
     </File>
     <File Include="bin/CDI.Comun.dll">
-      <publishTime>12/27/2019 11:25:26</publishTime>
+      <publishTime>06/08/2023 14:23:29</publishTime>
     </File>
     <File Include="bin/CDI.Comun.pdb">
-      <publishTime>12/27/2019 11:25:26</publishTime>
+      <publishTime>06/08/2023 14:23:29</publishTime>
     </File>
     <File Include="bin/CT.ADMIN.BL.dll">
-      <publishTime>11/18/2019 17:16:15</publishTime>
+      <publishTime>06/08/2023 12:11:15</publishTime>
     </File>
     <File Include="bin/CT.ADMIN.BL.pdb">
-      <publishTime>11/18/2019 17:16:15</publishTime>
+      <publishTime>06/08/2023 12:11:15</publishTime>
     </File>
     <File Include="bin/Ent_BpmNet.dll">
-      <publishTime>10/16/2019 08:37:54</publishTime>
+      <publishTime>06/08/2023 11:56:13</publishTime>
     </File>
     <File Include="bin/Ent_BpmNet.pdb">
-      <publishTime>10/16/2019 08:37:54</publishTime>
+      <publishTime>06/08/2023 11:56:13</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
-      <publishTime>04/22/2019 01:06:16</publishTime>
+      <publishTime>06/08/2023 11:58:30</publishTime>
     </File>
     <File Include="bin/Rest_Movile.dll">
-      <publishTime>02/14/2020 17:43:35</publishTime>
+      <publishTime>06/08/2023 15:48:55</publishTime>
     </File>
     <File Include="bin/Rest_Movile.pdb">
-      <publishTime>02/14/2020 17:43:35</publishTime>
+      <publishTime>06/08/2023 15:48:55</publishTime>
+    </File>
+    <File Include="PrecompiledApp.config">
+      <publishTime>06/08/2023 15:39:11</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/05/2020 10:57:25</publishTime>
+      <publishTime>06/08/2023 15:48:56</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -86,7 +86,6 @@ C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\AttomTraslation\bin
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\AttomTraslation\bin\Debug\AWSSDK.Core.xml
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\AttomTraslation\bin\Debug\AWSSDK.Polly.pdb
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\AttomTraslation\bin\Debug\AWSSDK.Polly.xml
-C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\AttomTraslation\bin\Debug\CDI.Comun.pdb
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\AttomTraslation\bin\Debug\Newtonsoft.Json.xml
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\AttomTraslation\obj\Debug\AttomTraslation.csproj.AssemblyReference.cache
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\AttomTraslation\obj\Debug\AttomTraslation.csproj.CoreCompileInputs.cache
