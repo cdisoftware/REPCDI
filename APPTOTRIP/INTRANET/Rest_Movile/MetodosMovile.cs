@@ -649,6 +649,197 @@ namespace Rest_Movile
                 CDITrace.EscribirLog("mv_consulta_persona_Recuperar Falla excepción: " + e.Message, CDITrace.Tipo.Error);
                 throw e;
             }
+
         }
+        public DataSet au_consulta_circuito(string NombreSitio)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("@NomSitio", NombreSitio, SqlDbType.VarChar, null));
+
+                DataSet a = objCon.ExecuteProcWS("", "", "au_consulta_circuito", parametrosEntrada, ref parametrosSalida);
+                return a;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("mv_consulta_persona_Recuperar Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+
+        }
+
+        //metodos de creacion de circuitos
+        public void InsertarImagenSitio(string imagen, string imagen_img, int orden, string fk_sitio)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("@imagen", imagen, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("@imagen_img", imagen_img, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("@orden", orden, SqlDbType.Int, null));
+                parametrosEntrada.Add(new InParameter("@fk_sitio", fk_sitio, SqlDbType.Int, null));
+                DataTable dtCircuitos = (DataTable)objCon.ExecuteProc("", "", "pa_Insert_ImagenSitio", parametrosEntrada, ref parametrosSalida);
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("Error al insertar imagen de sitio: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataTable ConsultaNombreCiudad(string NombreCiudad, string NombrePais)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("NombreCiudad", NombreCiudad, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("NombrePais", NombrePais, SqlDbType.VarChar, null));
+                DataTable dtCiudades = (DataTable)objCon.ExecuteProc("", "", "au_Consuta_CiudadXNombre", parametrosEntrada, ref parametrosSalida);
+                return dtCiudades;
+
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("au_Consuta_CiudadXNombre Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataTable ConsultaCircuitos(string CodIdioma)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("CodIdioma", CodIdioma, SqlDbType.VarChar, null));
+                DataTable dtCircuitos = (DataTable)objCon.ExecuteProc("", "", "Get_Circuitos_Admin", parametrosEntrada, ref parametrosSalida);
+                return dtCircuitos;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("Get_Circuitos_Admin Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataTable ConsultaSitios(string CodIdioma, string IdCircuito)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("CodIdioma", CodIdioma, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("IdCircuito", IdCircuito, SqlDbType.VarChar, null));
+                DataTable dtCircuitos = (DataTable)objCon.ExecuteProc("", "", "Get_Sitios_Admin", parametrosEntrada, ref parametrosSalida);
+                return dtCircuitos;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("Get_Sitios_Admin Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataTable ConsultaCategorias()
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                DataTable dtCircuitos = (DataTable)objCon.ExecuteProc("", "", "Get_Categorias_Admin", parametrosEntrada, ref parametrosSalida);
+                return dtCircuitos;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("Get_Circuitos_Admin Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataTable ConsultaImagenes(string idSitio)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+
+            parametrosEntrada.Add(new InParameter("idSitio", idSitio, SqlDbType.VarChar, null));
+
+            try
+            {
+                DataTable dtCircuitos = (DataTable)objCon.ExecuteProc("", "", "Get_Img_Sitios_Admin", parametrosEntrada, ref parametrosSalida);
+                return dtCircuitos;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("Get_Img_Sitios_Admin Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataTable ActualizaOrdenSitios(string idSitio, string Orden)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("idSitio", idSitio, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("Orden", Orden, SqlDbType.VarChar, null));
+                DataTable dtCircuitos = (DataTable)objCon.ExecuteProc("", "", "pa_Actualizar_OrdenSitio", parametrosEntrada, ref parametrosSalida);
+                return dtCircuitos;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("Get_Sitios_Admin Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public void EliminaImagenSitio(string idImagen)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("idImagen", idImagen, SqlDbType.VarChar, null));
+                DataTable dtCircuitos = (DataTable)objCon.ExecuteProc("", "", "pa_Eliminar_ImagenSitio", parametrosEntrada, ref parametrosSalida);
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("Get_Sitios_Admin Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataTable ActualizaEstadoCircuito(string idCircuito, string Estado)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("id_circuito_actualizar", idCircuito, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("estado", Estado, SqlDbType.VarChar, null));
+                DataTable dtCircuitos = (DataTable)objCon.ExecuteProc("", "", "pa_Actualiza_Estado_Circuito", parametrosEntrada, ref parametrosSalida);
+                return dtCircuitos;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("Get_Sitios_Admin Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
     }
 }
