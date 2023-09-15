@@ -3004,7 +3004,7 @@ namespace Rest_Movile
         {
 
            
-            var apiKey = "aqui va la apikey";
+            var apiKey = "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";
             var prompt = promptIn; 
             var message = new
             {
@@ -3076,7 +3076,7 @@ namespace Rest_Movile
 
                 string apiUrl = "images";
 
-                client.DefaultRequestHeaders.Add("X-API-KEY", "8a067c27e64529ee48d7ddcf9195d24823694976");
+                client.DefaultRequestHeaders.Add("X-API-KEY", "a55d33a93842407ad6433be91d6e6f630637b8bd");
 
                 var body = new { q = lugar };
                 var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
