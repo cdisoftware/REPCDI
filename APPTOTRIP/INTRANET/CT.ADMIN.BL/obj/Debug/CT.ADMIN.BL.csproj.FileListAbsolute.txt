@@ -67,3 +67,11 @@ C:\Users\varga\Documents\cdi\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.
 C:\Users\varga\Documents\cdi\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.csproj.CopyComplete
 C:\Users\varga\Documents\cdi\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.dll
 C:\Users\varga\Documents\cdi\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.pdb
+C:\Users\USUARIO\Documents\GitHub\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\bin\Debug\CT.ADMIN.BL.dll
+C:\Users\USUARIO\Documents\GitHub\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\bin\Debug\CT.ADMIN.BL.pdb
+C:\Users\USUARIO\Documents\GitHub\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\bin\Debug\CDI.Comun.dll
+C:\Users\USUARIO\Documents\GitHub\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.csproj.AssemblyReference.cache
+C:\Users\USUARIO\Documents\GitHub\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.csproj.CoreCompileInputs.cache
+C:\Users\USUARIO\Documents\GitHub\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.csproj.CopyComplete
+C:\Users\USUARIO\Documents\GitHub\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.dll
+C:\Users\USUARIO\Documents\GitHub\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.pdb

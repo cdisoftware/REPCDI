@@ -22,3 +22,15 @@ C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\obj\Release\CDI.Comun.
 C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\obj\Release\CDI.Comun.csproj.CopyComplete
 C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\obj\Release\CDI.Comun.dll
 C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\obj\Release\CDI.Comun.pdb
+C:\Users\USUARIO\Documents\GitHub\REPCDI\Librerias Comun\Comun\bin\Release\CDI.Comun.dll
+C:\Users\USUARIO\Documents\GitHub\REPCDI\Librerias Comun\Comun\bin\Release\CDI.Comun.pdb
+C:\Users\USUARIO\Documents\GitHub\REPCDI\Librerias Comun\Comun\bin\Release\Newtonsoft.Json.dll
+C:\Users\USUARIO\Documents\GitHub\REPCDI\Librerias Comun\Comun\bin\Release\System.Web.Services.dll
+C:\Users\USUARIO\Documents\GitHub\REPCDI\Librerias Comun\Comun\bin\Release\Newtonsoft.Json.xml
+C:\Users\USUARIO\Documents\GitHub\REPCDI\Librerias Comun\Comun\bin\Release\ES\System.Web.Services.resources.dll
+C:\Users\USUARIO\Documents\GitHub\REPCDI\Librerias Comun\Comun\obj\Release\CDI.Comun.csproj.AssemblyReference.cache
+C:\Users\USUARIO\Documents\GitHub\REPCDI\Librerias Comun\Comun\obj\Release\CDI.Comun.csproj.ResolveComReference.cache
+C:\Users\USUARIO\Documents\GitHub\REPCDI\Librerias Comun\Comun\obj\Release\CDI.Comun.csproj.CoreCompileInputs.cache
+C:\Users\USUARIO\Documents\GitHub\REPCDI\Librerias Comun\Comun\obj\Release\CDI.Comun.csproj.CopyComplete
+C:\Users\USUARIO\Documents\GitHub\REPCDI\Librerias Comun\Comun\obj\Release\CDI.Comun.dll
+C:\Users\USUARIO\Documents\GitHub\REPCDI\Librerias Comun\Comun\obj\Release\CDI.Comun.pdb
