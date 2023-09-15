@@ -10,3 +10,15 @@ C:\Users\juan7\Documents\REPOSITORIOS_CDI\Librerias Comun\Comun\bin\Debug\ES\Sys
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\Librerias Comun\Comun\obj\Debug\CDI.Comun.csproj.CopyComplete
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\Librerias Comun\Comun\obj\Debug\CDI.Comun.dll
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\Librerias Comun\Comun\obj\Debug\CDI.Comun.pdb
+C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\bin\Debug\CDI.Comun.dll
+C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\bin\Debug\CDI.Comun.pdb
+C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\bin\Debug\Newtonsoft.Json.dll
+C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\bin\Debug\System.Web.Services.dll
+C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\bin\Debug\Newtonsoft.Json.xml
+C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\bin\Debug\ES\System.Web.Services.resources.dll
+C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\obj\Debug\CDI.Comun.csproj.AssemblyReference.cache
+C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\obj\Debug\CDI.Comun.csproj.ResolveComReference.cache
+C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\obj\Debug\CDI.Comun.csproj.CoreCompileInputs.cache
+C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\obj\Debug\CDI.Comun.csproj.CopyComplete
+C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\obj\Debug\CDI.Comun.dll
+C:\Users\varga\Documents\cdi\REPCDI\Librerias Comun\Comun\obj\Debug\CDI.Comun.pdb

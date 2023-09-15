@@ -59,3 +59,11 @@ C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Deb
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.csproj.CopyComplete
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.dll
 C:\Users\juan7\Documents\REPOSITORIOS_CDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.pdb
+C:\Users\varga\Documents\cdi\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\bin\Debug\CT.ADMIN.BL.dll
+C:\Users\varga\Documents\cdi\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\bin\Debug\CT.ADMIN.BL.pdb
+C:\Users\varga\Documents\cdi\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\bin\Debug\CDI.Comun.dll
+C:\Users\varga\Documents\cdi\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.csproj.AssemblyReference.cache
+C:\Users\varga\Documents\cdi\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.csproj.CoreCompileInputs.cache
+C:\Users\varga\Documents\cdi\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.csproj.CopyComplete
+C:\Users\varga\Documents\cdi\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.dll
+C:\Users\varga\Documents\cdi\REPCDI\APPTOTRIP\INTRANET\CT.ADMIN.BL\obj\Debug\CT.ADMIN.BL.pdb
