@@ -8,6 +8,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
@@ -490,48 +491,78 @@ namespace Rest_Movile
             return pa_Traducir(text, Entrada, Salida);
         }
 
-        public string pa_Traducir(String text, String Entrada, String Salida)
+        //public string pa_Traducir(String text, String Entrada, String Salida)
+        //{
+        //    if (!text.Equals(""))
+        //    {
+        //        String url = "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=" + Entrada + "&to=" + Salida + "";
+        //        if (Entrada.Equals("") || Entrada.Equals("%20"))
+        //        {
+        //            url = "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=" + Salida + "";
+        //        }
+        //        var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+        //        httpWebRequest.ContentType = "application/json";
+        //        //httpWebRequest.Headers.Add("Ocp-Apim-Subscription-Key", "73ca5d43c217480ca2457224f0db6362");
+        //        httpWebRequest.Headers.Add("Ocp-Apim-Subscription-Key", "9353c8730fdc4359825b6d791774574b");
+        //        httpWebRequest.Method = "POST";
+        //        httpWebRequest.Accept = "application/json";
+        //        using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream(), Encoding.UTF8))
+        //        {
+        //            string json11 = "[{'Text':'" + text.Replace("'", "") + "'}]";
+        //            streamWriter.Write(json11);
+        //            streamWriter.Flush();
+        //            streamWriter.Close();
+        //        }
+        //        String r;
+        //        var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+        //        using (var sr = new StreamReader(httpResponse.GetResponseStream()))
+        //        {
+        //            var result = sr.ReadToEnd();
+        //            r = result.Remove(0, 1);
+        //            r = r.Remove(r.Length - 1, 1);
+        //        }
+        //        JObject array = JObject.Parse(r);
+        //        JArray a = JArray.Parse(array["translations"].ToString());
+        //        r = a[0]["text"].Value<String>();
+        //        return r;
+        //    }
+        //    else
+        //    {
+        //        return "";
+        //    }
+        //}
+
+        public string pa_Traducir(string text, string Entrada, string Salida)
         {
-            if (!text.Equals(""))
+            if (!string.IsNullOrEmpty(text))
             {
-                String url = "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=" + Entrada + "&to=" + Salida + "";
-                if (Entrada.Equals("") || Entrada.Equals("%20"))
+                string url = "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=" + Entrada + "&to=" + Salida;
+                if (string.IsNullOrEmpty(Entrada) || Entrada.Equals("%20"))
                 {
-                    url = "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=" + Salida + "";
+                    url = "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=" + Salida;
                 }
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-                httpWebRequest.ContentType = "application/json";
-                //httpWebRequest.Headers.Add("Ocp-Apim-Subscription-Key", "73ca5d43c217480ca2457224f0db6362");
-                httpWebRequest.Headers.Add("Ocp-Apim-Subscription-Key", "9353c8730fdc4359825b6d791774574b");
-                httpWebRequest.Method = "POST";
-                httpWebRequest.Accept = "application/json";
-                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream(), Encoding.UTF8))
+
+                using (var httpClient = new HttpClient())
                 {
-                    string json11 = "[{'Text':'" + text.Replace("'", "") + "'}]";
-                    streamWriter.Write(json11);
-                    streamWriter.Flush();
-                    streamWriter.Close();
+                    httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "9353c8730fdc4359825b6d791774574b");
+                    var requestBody = $"[{{'Text':'{text.Replace("'", "")}'}}]";
+                    var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+                    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                    var response = httpClient.PostAsync(url, content).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseContent = response.Content.ReadAsStringAsync().Result;
+                        JArray array = JArray.Parse(responseContent);
+                        JArray translationsArray = (JArray)array[0]["translations"];
+                        string translatedText = translationsArray[0]["text"].Value<string>();
+                        return translatedText;
+                    }
                 }
-                String r;
-                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                using (var sr = new StreamReader(httpResponse.GetResponseStream()))
-                {
-                    var result = sr.ReadToEnd();
-                    r = result.Remove(0, 1);
-                    r = r.Remove(r.Length - 1, 1);
-                }
-                JObject array = JObject.Parse(r);
-                JArray a = JArray.Parse(array["translations"].ToString());
-                r = a[0]["text"].Value<String>();
-                return r;
             }
-            else
-            {
-                return "";
-            }
+
+            return "";
         }
-
-
 
         public DataSet mv_Token_FCM(string token_persona, string token_FCM)
         {
@@ -838,6 +869,194 @@ namespace Rest_Movile
             {
                 CDITrace.EscribirLog("Get_Sitios_Admin Falla excepción: " + e.Message, CDITrace.Tipo.Error);
                 throw e;
+            }
+        }
+        public DataSet au_Traducir_Texto(string tipo, string llave, string texto, string codigo_idioma, string campo)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("tipo", tipo, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("llave", llave, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("texto", texto, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("codigo_idioma", codigo_idioma, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("campo", campo, SqlDbType.VarChar, null));
+                DataSet a = objCon.ExecuteProcWS("", "", "au_Actualiza_Idiomas", parametrosEntrada, ref parametrosSalida);
+                return a;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("mv_Asignacion_Circuito Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+
+        public DataSet pa_Consulta_CircuitoXId(string idCircuito)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("id_circuito", idCircuito, SqlDbType.VarChar, null));
+                DataSet a = objCon.ExecuteProcWS("", "", "pa_Consulta_circuitoIdiomaXId", parametrosEntrada, ref parametrosSalida);
+                return a;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("pa_Consulta_circuitoIdiomaXId Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataSet pa_Consulta_SiguienteIdSitio_Value(string idCircuito)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("id_circuito", idCircuito, SqlDbType.VarChar, null));
+                DataSet a = objCon.ExecuteProcWS("", "", "pa_Consulta_SiguienteIdSitio_Value", parametrosEntrada, ref parametrosSalida);
+                return a;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("pa_Consulta_SiguienteIdSitio_Value Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataSet pa_Consulta_Nombre_SitioXId(string idSitio)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("Id_Sitio", idSitio, SqlDbType.VarChar, null));
+                DataSet a = objCon.ExecuteProcWS("", "", "pa_Consulta_Nombre_SitioXId", parametrosEntrada, ref parametrosSalida);
+                return a;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("pa_Consulta_Nombre_SitioXId Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataSet pa_Consulta_Nombre_CircuitoXId(string idCircuito)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("Id_Circuito", idCircuito, SqlDbType.VarChar, null));
+                DataSet a = objCon.ExecuteProcWS("", "", "pa_Consulta_Nombre_CircuitoXId", parametrosEntrada, ref parametrosSalida);
+                return a;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("pa_Consulta_Nombre_CircuitoXId Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataSet pa_Consulta_SitioIdiomaXId(string idSitio)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("id_sitio", idSitio, SqlDbType.VarChar, null));
+                DataSet a = objCon.ExecuteProcWS("", "", "pa_Consulta_SitioIdiomaXId", parametrosEntrada, ref parametrosSalida);
+                return a;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("pa_Consulta_SitioIdiomaXId Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataSet au_Validar_Traduccion_Circuito(string idCircuito, string codIdioma)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+
+                parametrosEntrada.Add(new InParameter("id_circuito", idCircuito, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("cod_idioma", codIdioma, SqlDbType.VarChar, null));
+                DataSet a = objCon.ExecuteProcWS("", "", "au_Validar_Traduccion_Circuito", parametrosEntrada, ref parametrosSalida);
+                return a;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("pa_Consulta_SitioIdiomaXId Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataSet au_Validar_Traduccion_Sitio(string IdSitio, string codIdioma)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+
+                parametrosEntrada.Add(new InParameter("id_sitio", IdSitio, SqlDbType.VarChar, null));
+                parametrosEntrada.Add(new InParameter("cod_idioma", codIdioma, SqlDbType.VarChar, null));
+                DataSet a = objCon.ExecuteProcWS("", "", "au_Validar_Traduccion_Sitio", parametrosEntrada, ref parametrosSalida);
+                return a;
+            }
+            catch (Exception e)
+            {
+                CDITrace.EscribirLog("pa_Consulta_SitioIdiomaXId Falla excepción: " + e.Message, CDITrace.Tipo.Error);
+                throw e;
+            }
+        }
+
+        public DataTable au_Consulta_Circuito(string NombreSitio)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("NomSitio", NombreSitio, SqlDbType.VarChar, null));
+                DataTable a = objCon.ExecuteProcWS("", "", "au_Consulta_Circuito", parametrosEntrada, ref parametrosSalida).Tables[0];
+                return a;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public DataTable au_Consulta_Sitio(string NombreSitio)
+        {
+            clsConexion objCon = new clsConexion();
+            List<InParameter> parametrosEntrada = new List<InParameter>();
+            List<OutParameter> parametrosSalida = new List<OutParameter>();
+            try
+            {
+                parametrosEntrada.Add(new InParameter("NomSitio", NombreSitio, SqlDbType.VarChar, null));
+                DataTable a = objCon.ExecuteProcWS("", "", "au_Consulta_Sitio", parametrosEntrada, ref parametrosSalida).Tables[0];
+                return a;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
         }
 

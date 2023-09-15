@@ -17,6 +17,14 @@ using System.Text;
 using System.Web;
 using System.Xml.XPath;
 using System.Web.UI;
+using System.Threading.Tasks;
+using System.Web.UI.WebControls;
+using System.Web.Services.Description;
+using static CDI.Comun.Herramienta;
+using static System.Net.WebRequestMethods;
+using System.Numerics;
+using System.Web.UI.WebControls.WebParts;
+using System.Net.Http.Headers;
 
 
 /*
@@ -93,7 +101,7 @@ namespace Rest_Movile
             if (TokenApi == Desencripta)
             {
                 DataTable dataTable = new DataTable();
-                 MetodosMovile metodosMovile = new MetodosMovile();
+                MetodosMovile metodosMovile = new MetodosMovile();
                 string json = JsonConvert.SerializeObject(metodosMovile.mv_Consulta_Macro_Detalle(nombre_macro, codigo_idioma), Formatting.None);
                 byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
                 Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
@@ -664,6 +672,8 @@ namespace Rest_Movile
 
         }
 
+
+
         [OperationContract]
         [WebGet(UriTemplate = "Movile_consulta_persona_Recuperar/{correo_persona}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public string Movile_consulta_persona_Recuperar(string correo_persona, string TokenApi)
@@ -685,129 +695,189 @@ namespace Rest_Movile
 
         }
 
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_valida_Idioma/{idCircuito}/{CodIdioma}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string Movile_valida_Idioma(string idCircuito,string CodIdioma, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            if (TokenApi == Desencripta)
+            {
+                DataTable dataTable = new DataTable();
+                MetodosMovile metodosMovile = new MetodosMovile();
+                string json = JsonConvert.SerializeObject(metodosMovile.au_Validar_Traduccion_Circuito(idCircuito,CodIdioma), Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+            }
+            else
+            {
+                return "{resultado:Error token cliente}";
+            }
+
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_valida_Idioma_Sitio/{IdSitio}/{CodIdioma}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string Movile_valida_Idioma_sitio(string IdSitio, string CodIdioma, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            if (TokenApi == Desencripta)
+            {
+                DataTable dataTable = new DataTable();
+                MetodosMovile metodosMovile = new MetodosMovile();
+                string json = JsonConvert.SerializeObject(metodosMovile.au_Validar_Traduccion_Sitio(IdSitio, CodIdioma), Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+            }
+            else
+            {
+                return "{resultado:Error token cliente}";
+            }
+
+        }
 
         // GENERACION DE CIRCUITOS AUTOMATICOS 
 
-        [OperationContract]
-        [WebGet(UriTemplate = "Movile_Crear_Circuitos/{nameCity}/{nameCountry}/{ParEntrada}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
 
-        public string GeneraCircuito(string nameCity, string nameCountry, string ParEntrada, string TokenApi)
-        { 
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Crear_Circuitos/{nameCity}/{nameCountry}/{parEntrada}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string GeneraCircuito(string nameCity, string nameCountry, string parEntrada, string TokenApi)
+        {
             string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
             MetodosMovile metodosMovile = new MetodosMovile();
+            ATT_WS.AppToTripWSSoapClient objWs = new ATT_WS.AppToTripWSSoapClient();
 
             if (TokenApi == Desencripta)
             {
                 try
                 {
-                    //metodos = new Metodos();
-                    string Nombre = null;
+
+                    
                     string NameCity = nameCity;
                     string NameCountry = nameCountry;
-                    string NumberDay = ParEntrada;
-                    string service = "¡Circuito creado!";
+                    string NumberDay = parEntrada;
+                    int numeroDia = int.Parse(parEntrada);
+                    
                     try
                     {
-                        string PreguntaPruebaDos = "Ponte en el papel de un buen GUIA DE TURISMO Y HACIENDO REFERENCIA EN ESTE ORDEN A COORDENADA, DESCRIPCION JOCOSA EXTENDIDA, DESCRIPCION CORTA, CONTEXTO HISTORICO, EQUIPAMIENTO Y RECOMENDACIONES COMO EN EL SIGUIENTE EJEMPLO :" +
-                                                   "4.8143° N" +
-                                                   "|¡Hola! ¡Bienvenido a Pereira, la ciudad del café con un toque de diversión! Aquí encontrarás un destino que combina la riqueza histórica con un ambiente alegre y acogedor. Explora las calles llenas de historia y anécdotas que harán reír hasta al más serio. Conoce a los pereiranos, conocidos por su sentido del humor y su pasión por el café. Prepárate para disfrutar de una experiencia única llena de risas y sabores que te harán vibrar. ¡Pereira te espera con los brazos abiertos y una taza de café lista para endulzar tus días!" +
-                                                   "|La ciudad de la eterna sonrisa y el café encantador." +
-                                                   "|La Fundaciónde Pereira es la capital del departamento de Risaralda en Colombia fue fundada el 30 de agosto de 1863 por el abogado y político colombiano Francisco Pereira Martínez, inicialmente, la ciudad fue establecida como una villa en un valle conocido como Valle de Risaralda, con el tiempo Pereira se ha convertido en una importante ciudad colombiana debido a su ubicación estratégica y su desarrollo económico,una de las tradiciones más destacadas es la Feria de la Cosecha, que se celebra en agosto, durante esta festividad, se llevan a cabo desfiles, conciertos, muestras artesanales y actividades relacionadas con la agricultura y la producción de café, uno de los principales productos de la región acontecimientos a lo largo de su historia, Pereira ha experimentado varios acontecimientos significativos. Durante el siglo XX, la ciudad experimentó un importante crecimiento económico gracias a la expansión de la industria del café y el desarrollo de la infraestructura. En 1966, Pereira sufrió un terremoto que causó daños significativos en la ciudad, pero logró recuperarse rápidamente. La cultura en Pereira es diversa y rica. La ciudad cuenta con varios museos, teatros y espacios culturales que promueven las artes y la música. La música tradicional de la región se caracteriza por géneros como el bambuco, el pasillo y la guabina. Además, la gastronomía pereirana destaca por platos como la bandeja paisa, el sancocho y la arepa. Pereira es conocida por su cultura diversa y su importancia en la producción de café en Colombia." +
-                                                   "|Equipaciones a tener en cuenta en pereira: Ropa fresca y ligera, si lo deseas, gafas de sol y gorras." +
-                                                   "|Recomendaciones a tener en cuenta en pereira: Transporte: Una vez en la ciudad, puedes moverte en taxi, transporte público o alquilar un carro.Algunas áreas recomendadas para hospedarse son el centro de la ciudad y el sector de El Cable. Gastronomía: No te pierdas la oportunidad de probar la deliciosa gastronomía de Pereira. Prueba platos típicos como la arepa de chocolo, la bandeja paisa y el sancocho de gallina. Además, disfruta de un delicioso café colombiano, ya que Pereira es parte de la región del Eje Cafetero." +
-                                                   "QUIERO OBTENER UNA RESPUESTA IGUAL CON ESA ESTRUCTURA PERO PARA EL LUGAR DE rplcnombresitio " +
-                                                   "TIENE QUE TENER ESA MISMA ESTRUCTURA DE EJEMPLO PERO CON EL CONTENIDO DEL LUGAR QUE HE PEDIDO" +
-                                                   "ES DE GRAN IMPORTANCIA SEPARAR CADA ESPECIFICACION CON | EXACTAMENTE IGUAL A COMO ESTA EN EL EJEMPLO PRESENTADO";
-
-
                         string Resultado = String.Format("{0} {1}, {2}", NameCity, NameCountry, NumberDay);
-                        ResultadoConcat = $"{NameCity} {NameCountry}, {NumberDay} ";
+                        ResultadoConcat = $"{NameCity} {NameCountry}, {NumberDay}";
 
-                        string PreguntaCircuito = PreguntaPruebaDos.Replace("rplcnombresitio", ResultadoConcat);
+                        
 
                         NombreSitio = ResultadoConcat;
-
-
-                        //Prueba Nuget Coordenada
                         string[] SinDay = NombreSitio.Split(',');
                         string nombreciudad = SinDay[0];
+                        DataTable dtPreguntas = metodosMovile.au_Consulta_Circuito(NombreSitio);
 
-                        //string getCoordenadas = getCoordenada;
-                        //DataTable dtPreguntas = metodos.au_Consulta_Circuito(PreguntaPruebaDos.Replace("rplcnombresitio", ParEntrada));
-                        //clsCircuitos objCircuitos = new clsCircuitos();
+                        string PreguntaDos = dtPreguntas.Rows[0]["Pregunta_Circuito"].ToString().Replace("rplcnombresitio", NombreSitio);
+
+
+                        string PreguntaCircuito = PreguntaDos.Replace("rplcnombresitio", ResultadoConcat);
                         DataTable UbicacionCircuito = metodosMovile.ConsultaNombreCiudad(nameCity, nameCountry);
 
-                        string idCiudad = UbicacionCircuito.Rows[0]["id_ciudad"].ToString();
-                        string idPais = UbicacionCircuito.Rows[0]["id_pais"].ToString();
-                        string Respuesta = ConsumeGpt(PreguntaCircuito);
-
+                            string idCiudad = UbicacionCircuito.Rows[0]["id_ciudad"].ToString();
+                            string idPais = UbicacionCircuito.Rows[0]["id_pais"].ToString();
+                            string Respuesta = ConsumeGpt(PreguntaCircuito);
+                        
 
                         if (Respuesta != null || Respuesta.Length > 0)
                         {
-
-                            Nombre = ResultadoConcat;
-
-                            string[] SinNumerico = Nombre.Split(',');
-                            bool tieneMasDeDosCaracteres = SinNumerico.Any(elemento => elemento.Length >= 2);
-                            string NombreLugar = Nombre;
-                            string NumDias = " ";
-                            string img = " ";
-                            //Coordenadas getCoordenada = BuscarCoordenadas(NameCity, NameCountry);
-                            //if (getCoordenada != null)
-                            //{
-                            //    string latitudCapa = getCoordenada.Latitud;
-                            //    string longitudCapa = getCoordenada.Longitud;
-
-                            if (tieneMasDeDosCaracteres == true)
+                            string latitudCapa = string.Empty;
+                            string longitudCapa = string.Empty;
+                            string img = buscarImagen(nombreciudad);
+                            string NumDias = SinDay[1]+" día";
+                            if (NumDias != "1")
                             {
-                                NombreLugar = SinNumerico[0].Trim();
-                                NumDias = SinNumerico[1].Trim() + " días";
-                                img = buscarImagen(NombreLugar);
+                                NumDias = SinDay[1] + " días";
                             }
-                            else
+                            Coordenadas getCoordenada = BuscarCoordenadas(NameCity, NameCountry);
+                            if (getCoordenada != null)
                             {
-                                NombreLugar = Nombre.Trim();
-                                NumDias = " ";
-                                img = buscarImagen(NombreLugar);
+                                latitudCapa = getCoordenada.Latitud;
+                                longitudCapa = getCoordenada.Longitud;
                             }
-                            int estadoCircuito = 1;
-                            DataTable dtCircuito = ConvertirCadenaTablaCircuito(Respuesta);
-                            string idCircuito = InsertaCircuitos(nombreciudad, dtCircuito, img, NumDias, idCiudad, estadoCircuito);
-                            //DataTable dtSitios = metodos.au_Consulta_Sitio(Nombre);
+                                int estadoCircuito = 1;
+                                DataTable dtCircuito = ConvertirCadenaTablaCircuito(Respuesta);
+                                string idCircuito = InsertaCircuitos(nombreciudad, dtCircuito, img, NumDias, idCiudad, estadoCircuito ,longitudCapa, latitudCapa);
 
-                            ConsultaSitios(idCircuito);
-                            //}
-                            return service;
-
+                                CircuitoReturn response = new CircuitoReturn();
+                                response.IdCircuito = idCircuito;
+                                response.NombreSitio = nombreciudad;
+                                response.Mensaje = nombreciudad;
+                                response.Img = img;
+                                response.numDia = numeroDia;
+                                //nombreciudad + " está actualmente en proceso."
+                                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                            
+                            return json;
+                            
                         }
                         else
-                        {
-                            return "Ha ocurrido un error con la creación del circuito";
+                        {   
+                            
+                            return "{resultado:Ha ocurrido un error con la creación del circuito al realizar la peticion con GPT}";
                         }
                     }
                     catch (Exception ex)
                     {
-                        throw ex;
-                        return "¡La creacion del circuito ha fallado! Parece que ha habido una falla o sobrecarga. Por favor, verifique su circuito";
+                        return ex.Message; 
+                     
                     }
 
 
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
-                    return "¡La creacion del circuito ha fallado! Parece que ha habido una falla o sobrecarga. Por favor, verifique su circuito";
+                    return ex.Message;
+            
                 }
 
-        
+
             }
             else
             {
                 return "{resultado:Error token cliente}";
             }
-            
         }
-        public string InsertaCircuitos(string NombreCircuito, DataTable dtCircuito, string img, string Duracion, string idCiudad, int estadoCircuito)
+
+        public DataTable ConvertirCadenaTablaCircuito(string inputText)
+        {
+            
+            string[] rows = inputText.Split('|');
+
+            DataTable dtValores = new DataTable();
+          
+            if (dtValores.Columns.Count == 0)
+            {
+                dtValores.Columns.Add("Coordenada");
+                dtValores.Columns.Add("Descripción Jocosa Extendida");
+                dtValores.Columns.Add("Descripción Corta");
+                dtValores.Columns.Add("Contexto");
+                dtValores.Columns.Add("Equipamiento");
+                dtValores.Columns.Add("Recomendaciones");
+
+            }
+
+            DataRow dataRow = dtValores.NewRow();
+            
+            for (int i = 0; i < rows.Length; i++)
+            {
+                if (i < dtValores.Columns.Count)
+                {
+                    dataRow[i] = rows[i].Trim();
+                }
+            }
+      
+            dtValores.Rows.Add(dataRow);
+
+            return dtValores;
+        }
+
+        public string InsertaCircuitos(string NombreCircuito, DataTable dtCircuito, string img, string Duracion, string idCiudad, int estadoCircuito ,string longitudCapa, string latitudCapa)
         {
             ATT_WS.AppToTripWSSoapClient objWs = new ATT_WS.AppToTripWSSoapClient();
 
@@ -838,13 +908,13 @@ namespace Rest_Movile
             objWs.pa_Actualiza_General("circuito", idCircuito.ToString(), CamposRecomendaciones, DatosRecomendaciones, "es");
 
             string CamposLongitud = "Longitud_Capa";
-            string DatosLongitud = dtCircuito.Rows[0]["Coordenada"].ToString();
-            //string DatosLongitud = longitudCapa;
+            //string DatosLongitud = dtCircuito.Rows[0]["Coordenada"].ToString();
+            string DatosLongitud = longitudCapa;
             objWs.pa_Actualiza_General("circuito", idCircuito.ToString(), CamposLongitud, DatosLongitud, "es");
 
             string CamposLatitud = "Latitud_Capa";
-            string DatosLatitud = dtCircuito.Rows[0]["Coordenada"].ToString();
-            //string DatosLatitud= latitudCapa;
+            //string DatosLatitud = dtCircuito.Rows[0]["Coordenada"].ToString();
+            string DatosLatitud= latitudCapa;
             objWs.pa_Actualiza_General("circuito", idCircuito.ToString(), CamposLatitud, DatosLatitud, "es");
 
             string CamposImagen = "imagen";
@@ -864,83 +934,2078 @@ namespace Rest_Movile
             objWs.pa_Actualiza_General("circuito", idCircuito.ToString(), CamposEstadoC, DatosEstadoC, "es");
 
 
-            //DataTable dtCircuitos = objCircuitos.ConsultaCircuitos("es", "108");
+           
 
             return idCircuito;
         }
 
-        public string InsertaSitio(string idCircuito, string NombreSitio, int Orden, DataTable dtInfoSitio, string latitud, string longitud)
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Circuitos/{IdCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposCircuito(string idCircuito, string TokenApi)
         {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+                string[] idiomas = { "en", "fr", "it", "ja", "pt", "ru", "tr", "de" };
+
+                DataSet dataSet = metodosMovile.pa_Consulta_CircuitoXId(idCircuito);
+
+               
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                    
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreCircuito = row["nombre_circuito"].ToString();
+                    string descripcionCircuito = row["descripcion_circuito"].ToString();
+                    string descripcionCortaCircuito = row["descripcion_corta_circuito"].ToString();
+                    string contextoCircuito = row["contexto"].ToString();
+                    string equipamentoCircuito = row["equipamento"].ToString();
+                    string recomendacionCircuito = row["recomendacion"].ToString();
+
+                    foreach (string idiomaDestino in idiomas)
+                    {
+                       
+                        string nombreCircuitoTraducido = metodosMovile.pa_Traducir(nombreCircuito, "es", idiomaDestino);
+                        string descripcionCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCircuito, "es", idiomaDestino);
+                        string descripcionCortaCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCortaCircuito, "es", idiomaDestino);
+                        string contextoCircuitoTraducido = metodosMovile.pa_Traducir(contextoCircuito, "es", idiomaDestino);
+                        string equipamentoCircuitoTraducido = metodosMovile.pa_Traducir(equipamentoCircuito, "es", idiomaDestino);
+                        string recomendacionCircuitoATraducida = metodosMovile.pa_Traducir(recomendacionCircuito, "es", idiomaDestino);
+
+                        string DescCircuitoTraducida = descripcionCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string DescCortaCircuitoTraducida = descripcionCortaCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string ContextCircuitoTraducida = contextoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string equipamentoCircuitoTraducida = equipamentoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string recomendacionCircuitoTraducida = recomendacionCircuitoATraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                     
+                        InsertaTraduccion("1", idCircuito, nombreCircuitoTraducido, idiomaDestino, "nombre_circuito");
+                        InsertaTraduccion("1", idCircuito, DescCircuitoTraducida, idiomaDestino, "descripcion_circuito");
+                        InsertaTraduccion("1", idCircuito, DescCortaCircuitoTraducida, idiomaDestino, "descripcion_corta_circuito");
+                        InsertaTraduccion("1", idCircuito, ContextCircuitoTraducida, idiomaDestino, "contexto");
+                        InsertaTraduccion("1", idCircuito, equipamentoCircuitoTraducida, idiomaDestino, "equipamento");
+                        InsertaTraduccion("1", idCircuito, recomendacionCircuitoTraducida, idiomaDestino, "recomendacion");
+
+
+                    }
+
+                }
+               
+                DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                TraduccionReturn response = new TraduccionReturn();
+                response.IdCircuito = idCircuito;
+                response.Mensaje = "Traduccion de "+ nombreCircuitoEncontrado;
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+              
+            }
+            else
+            {
+              
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Generar_Audios_Circuitos/{IdCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string GenerarAudios(string idCircuito, string TokenApi) {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+                try
+                {
+                    
+                    string[] idiomasDestino = { "de", "en", "es", "fr", "it", "ja", "pt", "ru", "tr" };
+
+                    DataSet dataSet = metodosMovile.pa_Consulta_CircuitoXId(idCircuito);
+
+                  
+                    if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                    {
+                        DataRow idiomaRow = dataSet.Tables[0].Rows[0]; 
+                        for (int i = 0; i <idiomasDestino.Length; i++) 
+                        {
+                            DataRow dataRow = dataSet.Tables[0].Rows[i];
+                            string nombreCircuito = dataRow["nombre_circuito"].ToString();
+                            string descripcionCircuito = dataRow["descripcion_circuito"].ToString();
+                            string descripcionCortaCircuito = dataRow["descripcion_corta_circuito"].ToString();
+                            string contextoCircuito = dataRow["contexto"].ToString();
+                            string equipamentoCircuito = dataRow["equipamento"].ToString();
+                            string recomendacionCircuito = dataRow["recomendacion"].ToString();
+
+                            string idiomaDestino = idiomasDestino[i]; 
+                            GeneraAudio("circuito", idCircuito, "descripcion_circuito", descripcionCircuito, idiomaDestino);
+                            GeneraAudio("circuito", idCircuito, "descripcion_corta_circuito", descripcionCortaCircuito, idiomaDestino);
+                            GeneraAudio("circuito", idCircuito, "contexto", contextoCircuito, idiomaDestino);
+                            GeneraAudio("circuito", idCircuito, "equipamento", equipamentoCircuito, idiomaDestino);
+                            GeneraAudio("circuito", idCircuito, "recomendacion", recomendacionCircuito, idiomaDestino);
+                        }
+                    }
+                   
+                    DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                    string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                    TraduccionReturn response = new TraduccionReturn();
+                    response.IdCircuito = idCircuito;
+                    response.Mensaje = "Audios de " + nombreCircuitoEncontrado;
+
+                    
+                    string json = JsonConvert.SerializeObject(response, Formatting.None);
+                    byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                    Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                    return json;
+                }
+                catch(Exception e) 
+                {
+                    return e.Message;
+                }
+            } 
+            else
+            {
+               
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Circuitos_Idioma_Destino/{IdCircuito}/{codIdioma}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposCircuitoIdiomaDestino(string idCircuito,string codIdioma ,string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+
+                DataSet dataSet = metodosMovile.pa_Consulta_CircuitoXId(idCircuito);
+
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                   
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreCircuito = row["nombre_circuito"].ToString();
+                    string descripcionCircuito = row["descripcion_circuito"].ToString();
+                    string descripcionCortaCircuito = row["descripcion_corta_circuito"].ToString();
+                    string contextoCircuito = row["contexto"].ToString();
+                    string equipamentoCircuito = row["equipamento"].ToString();
+                    string recomendacionCircuito = row["recomendacion"].ToString();
+
+                    
+                        
+                        string nombreCircuitoTraducido = metodosMovile.pa_Traducir(nombreCircuito, "es", codIdioma);
+                        string descripcionCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCircuito, "es", codIdioma);
+                        string descripcionCortaCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCortaCircuito, "es", codIdioma);
+                        string contextoCircuitoTraducido = metodosMovile.pa_Traducir(contextoCircuito, "es", codIdioma);
+                        string equipamentoCircuitoTraducido = metodosMovile.pa_Traducir(equipamentoCircuito, "es", codIdioma);
+                        string recomendacionCircuitoATraducida = metodosMovile.pa_Traducir(recomendacionCircuito, "es", codIdioma);
+
+                        string DescCircuitoTraducida = descripcionCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string DescCortaCircuitoTraducida = descripcionCortaCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string ContextCircuitoTraducida = contextoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string equipamentoCircuitoTraducida = equipamentoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string recomendacionCircuitoTraducida = recomendacionCircuitoATraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                        
+                        InsertaTraduccion("1", idCircuito, nombreCircuitoTraducido, codIdioma, "nombre_circuito");
+                        InsertaTraduccion("1", idCircuito, DescCircuitoTraducida, codIdioma, "descripcion_circuito");
+                        InsertaTraduccion("1", idCircuito, DescCortaCircuitoTraducida, codIdioma, "descripcion_corta_circuito");
+                        InsertaTraduccion("1", idCircuito, ContextCircuitoTraducida, codIdioma, "contexto");
+                        InsertaTraduccion("1", idCircuito, equipamentoCircuitoTraducida, codIdioma, "equipamento");
+                        InsertaTraduccion("1", idCircuito, recomendacionCircuitoTraducida, codIdioma, "recomendacion");
+
+                    GeneraAudio("circuito", idCircuito, "descripcion_circuito", descripcionCircuitoTraducida, codIdioma);
+                    GeneraAudio("circuito", idCircuito, "descripcion_corta_circuito", descripcionCortaCircuitoTraducida, codIdioma);
+                    GeneraAudio("circuito", idCircuito, "contexto", contextoCircuitoTraducido, codIdioma);
+                    GeneraAudio("circuito", idCircuito, "equipamento", equipamentoCircuitoTraducido, codIdioma);
+                    GeneraAudio("circuito", idCircuito, "recomendacion", recomendacionCircuitoATraducida, codIdioma);
+
+                }
+
+                
+                DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                TraduccionReturn response = new TraduccionReturn();
+                response.IdCircuito = idCircuito;
+                
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+
+            }
+            else
+            {
+                
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Circuitos_Idioma_FR/{IdCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposCircuitoIdiomaFR(string idCircuito, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+
+                DataSet dataSet = metodosMovile.pa_Consulta_CircuitoXId(idCircuito);
+
+                
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                    
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreCircuito = row["nombre_circuito"].ToString();
+                    string descripcionCircuito = row["descripcion_circuito"].ToString();
+                    string descripcionCortaCircuito = row["descripcion_corta_circuito"].ToString();
+                    string contextoCircuito = row["contexto"].ToString();
+                    string equipamentoCircuito = row["equipamento"].ToString();
+                    string recomendacionCircuito = row["recomendacion"].ToString();
+                    string tiempoEstimadoCircuito = row["tiempo_estimado"].ToString();
+                    string campoRango = "Todas las edades";
+
+
+                   
+                    string nombreCircuitoTraducido = metodosMovile.pa_Traducir(nombreCircuito, "es", "fr");
+                    string descripcionCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCircuito, "es", "fr");
+                    string descripcionCortaCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCortaCircuito, "es", "fr");
+                    string contextoCircuitoTraducido = metodosMovile.pa_Traducir(contextoCircuito, "es", "fr");
+                    string equipamentoCircuitoTraducido = metodosMovile.pa_Traducir(equipamentoCircuito, "es", "fr");
+                    string recomendacionCircuitoATraducida = metodosMovile.pa_Traducir(recomendacionCircuito, "es", "fr");
+                    string campoRangoCircuitoTraducido = metodosMovile.pa_Traducir("Todas las edades", "es", "fr");
+                    string campoTiempoCircuitoTraducido = metodosMovile.pa_Traducir(tiempoEstimadoCircuito, "es", "fr");
+
+                    string DescCircuitoTraducida = descripcionCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaCircuitoTraducida = descripcionCortaCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string ContextCircuitoTraducida = contextoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoCircuitoTraducida = equipamentoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionCircuitoTraducida = recomendacionCircuitoATraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string CampoRangosCircuitoTraducida = campoRangoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string campoTiempoEstimadoCircuitoTraducido = campoTiempoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                    
+                    InsertaTraduccion("1", idCircuito, nombreCircuitoTraducido, "fr", "nombre_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCircuitoTraducida, "fr", "descripcion_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCortaCircuitoTraducida, "fr", "descripcion_corta_circuito");
+                    InsertaTraduccion("1", idCircuito, ContextCircuitoTraducida, "fr", "contexto");
+                    InsertaTraduccion("1", idCircuito, equipamentoCircuitoTraducida, "fr", "equipamento");
+                    InsertaTraduccion("1", idCircuito, recomendacionCircuitoTraducida, "fr", "recomendacion");
+                    //InsertaTraduccion("1", idCircuito, CampoRangosCircuitoTraducida, "fr", "rango");
+                    InsertaTraduccion("1", idCircuito, campoTiempoEstimadoCircuitoTraducido, "fr", "tiempo_estimado");
+
+                    GeneraAudio("circuito", idCircuito, "descripcion_circuito", descripcionCircuitoTraducida, "fr");
+                    GeneraAudio("circuito", idCircuito, "descripcion_corta_circuito", descripcionCortaCircuitoTraducida, "fr");
+                    GeneraAudio("circuito", idCircuito, "contexto", contextoCircuitoTraducido, "fr");
+                    GeneraAudio("circuito", idCircuito, "equipamento", equipamentoCircuitoTraducido, "fr");
+                    GeneraAudio("circuito", idCircuito, "recomendacion", recomendacionCircuitoATraducida, "fr");
+                    //GeneraAudio("circuito", idCircuito, "rango", CampoRangosCircuitoTraducida, "fr");
+
+                }
+
+                
+                DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                TraduccionReturn response = new TraduccionReturn();
+                response.IdCircuito = idCircuito;
+                response.Mensaje = "Traduccion de " + nombreCircuitoEncontrado;
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+
+            }
+            else
+            {
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Circuitos_Idioma_EN/{IdCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposCircuitoIdiomaEN(string idCircuito, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+
+                DataSet dataSet = metodosMovile.pa_Consulta_CircuitoXId(idCircuito);
+
+            
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                    
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreCircuito = row["nombre_circuito"].ToString();
+                    string descripcionCircuito = row["descripcion_circuito"].ToString();
+                    string descripcionCortaCircuito = row["descripcion_corta_circuito"].ToString();
+                    string contextoCircuito = row["contexto"].ToString();
+                    string equipamentoCircuito = row["equipamento"].ToString();
+                    string recomendacionCircuito = row["recomendacion"].ToString();
+                    string tiempoEstimadoCircuito = row["tiempo_estimado"].ToString();
+                   
+                    string nombreCircuitoTraducido = metodosMovile.pa_Traducir(nombreCircuito, "es", "en");
+                    string descripcionCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCircuito, "es", "en");
+                    string descripcionCortaCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCortaCircuito, "es", "en");
+                    string contextoCircuitoTraducido = metodosMovile.pa_Traducir(contextoCircuito, "es", "en");
+                    string equipamentoCircuitoTraducido = metodosMovile.pa_Traducir(equipamentoCircuito, "es", "en");
+                    string recomendacionCircuitoATraducida = metodosMovile.pa_Traducir(recomendacionCircuito, "es", "en");
+                    string campoTiempoCircuitoTraducido = metodosMovile.pa_Traducir(tiempoEstimadoCircuito, "es", "en");
+
+                    string DescCircuitoTraducida = descripcionCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaCircuitoTraducida = descripcionCortaCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string ContextCircuitoTraducida = contextoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoCircuitoTraducida = equipamentoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionCircuitoTraducida = recomendacionCircuitoATraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string campoTiempoEstimadoCircuitoTraducido = campoTiempoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+
+                    InsertaTraduccion("1", idCircuito, nombreCircuitoTraducido, "en", "nombre_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCircuitoTraducida, "en", "descripcion_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCortaCircuitoTraducida, "en", "descripcion_corta_circuito");
+                    InsertaTraduccion("1", idCircuito, ContextCircuitoTraducida, "en", "contexto");
+                    InsertaTraduccion("1", idCircuito, equipamentoCircuitoTraducida, "en", "equipamento");
+                    InsertaTraduccion("1", idCircuito, recomendacionCircuitoTraducida, "en", "recomendacion");
+                    InsertaTraduccion("1", idCircuito, campoTiempoEstimadoCircuitoTraducido, "en", "tiempo_estimado");
+
+                    GeneraAudio("circuito", idCircuito, "descripcion_circuito", descripcionCircuitoTraducida, "en");
+                    GeneraAudio("circuito", idCircuito, "descripcion_corta_circuito", descripcionCortaCircuitoTraducida, "en");
+                    GeneraAudio("circuito", idCircuito, "contexto", contextoCircuitoTraducido, "en");
+                    GeneraAudio("circuito", idCircuito, "equipamento", equipamentoCircuitoTraducido, "en");
+                    GeneraAudio("circuito", idCircuito, "recomendacion", recomendacionCircuitoATraducida, "en");
+
+                }
+
+               
+                DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                TraduccionReturn response = new TraduccionReturn();
+                response.IdCircuito = idCircuito;
+                response.Mensaje = "Traduccion de " + nombreCircuitoEncontrado;
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+
+            }
+            else
+            {
+                
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Circuitos_Idioma_IT/{IdCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposCircuitoIdiomaIT(string idCircuito, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+                DataSet dataSet = metodosMovile.pa_Consulta_CircuitoXId(idCircuito);
+ 
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                   
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreCircuito = row["nombre_circuito"].ToString();
+                    string descripcionCircuito = row["descripcion_circuito"].ToString();
+                    string descripcionCortaCircuito = row["descripcion_corta_circuito"].ToString();
+                    string contextoCircuito = row["contexto"].ToString();
+                    string equipamentoCircuito = row["equipamento"].ToString();
+                    string recomendacionCircuito = row["recomendacion"].ToString();
+                    string tiempoEstimadoCircuito = row["tiempo_estimado"].ToString();
+                   
+
+                    string nombreCircuitoTraducido = metodosMovile.pa_Traducir(nombreCircuito, "es", "it");
+                    string descripcionCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCircuito, "es", "it");
+                    string descripcionCortaCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCortaCircuito, "es", "it");
+                    string contextoCircuitoTraducido = metodosMovile.pa_Traducir(contextoCircuito, "es", "it");
+                    string equipamentoCircuitoTraducido = metodosMovile.pa_Traducir(equipamentoCircuito, "es", "it");
+                    string recomendacionCircuitoATraducida = metodosMovile.pa_Traducir(recomendacionCircuito, "es", "it");
+                    string campoTiempoCircuitoTraducido = metodosMovile.pa_Traducir(tiempoEstimadoCircuito, "es", "it");
+
+                    string DescCircuitoTraducida = descripcionCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaCircuitoTraducida = descripcionCortaCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string ContextCircuitoTraducida = contextoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoCircuitoTraducida = equipamentoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionCircuitoTraducida = recomendacionCircuitoATraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string campoTiempoEstimadoCircuitoTraducido = campoTiempoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                    InsertaTraduccion("1", idCircuito, nombreCircuitoTraducido, "it", "nombre_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCircuitoTraducida, "it", "descripcion_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCortaCircuitoTraducida, "it", "descripcion_corta_circuito");
+                    InsertaTraduccion("1", idCircuito, ContextCircuitoTraducida, "it", "contexto");
+                    InsertaTraduccion("1", idCircuito, equipamentoCircuitoTraducida, "it", "equipamento");
+                    InsertaTraduccion("1", idCircuito, recomendacionCircuitoTraducida, "it", "recomendacion");
+                    InsertaTraduccion("1", idCircuito, campoTiempoEstimadoCircuitoTraducido, "en", "tiempo_estimado");
+
+                    GeneraAudio("circuito", idCircuito, "descripcion_circuito", descripcionCircuitoTraducida, "it");
+                    GeneraAudio("circuito", idCircuito, "descripcion_corta_circuito", descripcionCortaCircuitoTraducida, "it");
+                    GeneraAudio("circuito", idCircuito, "contexto", contextoCircuitoTraducido, "it");
+                    GeneraAudio("circuito", idCircuito, "equipamento", equipamentoCircuitoTraducido, "it");
+                    GeneraAudio("circuito", idCircuito, "recomendacion", recomendacionCircuitoATraducida, "it");
+
+                }
+
+                
+                DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                TraduccionReturn response = new TraduccionReturn();
+                response.IdCircuito = idCircuito;
+                response.Mensaje = "Traduccion de " + nombreCircuitoEncontrado;
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+
+            }
+            else
+            {
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Circuitos_Idioma_JA/{IdCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposCircuitoIdiomaJA(string idCircuito, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+                DataSet dataSet = metodosMovile.pa_Consulta_CircuitoXId(idCircuito);
+
+              
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                 
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreCircuito = row["nombre_circuito"].ToString();
+                    string descripcionCircuito = row["descripcion_circuito"].ToString();
+                    string descripcionCortaCircuito = row["descripcion_corta_circuito"].ToString();
+                    string contextoCircuito = row["contexto"].ToString();
+                    string equipamentoCircuito = row["equipamento"].ToString();
+                    string recomendacionCircuito = row["recomendacion"].ToString();
+                    string tiempoEstimadoCircuito = row["tiempo_estimado"].ToString();
+
+                    string nombreCircuitoTraducido = metodosMovile.pa_Traducir(nombreCircuito, "es", "ja");
+                    string descripcionCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCircuito, "es", "ja");
+                    string descripcionCortaCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCortaCircuito, "es", "ja");
+                    string contextoCircuitoTraducido = metodosMovile.pa_Traducir(contextoCircuito, "es", "ja");
+                    string equipamentoCircuitoTraducido = metodosMovile.pa_Traducir(equipamentoCircuito, "es", "ja");
+                    string recomendacionCircuitoATraducida = metodosMovile.pa_Traducir(recomendacionCircuito, "es", "ja");
+                    string campoTiempoCircuitoTraducido = metodosMovile.pa_Traducir(tiempoEstimadoCircuito, "es", "ja");
+
+                    string DescCircuitoTraducida = descripcionCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaCircuitoTraducida = descripcionCortaCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string ContextCircuitoTraducida = contextoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoCircuitoTraducida = equipamentoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionCircuitoTraducida = recomendacionCircuitoATraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string campoTiempoEstimadoCircuitoTraducido = campoTiempoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                    InsertaTraduccion("1", idCircuito, nombreCircuitoTraducido, "ja", "nombre_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCircuitoTraducida, "ja", "descripcion_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCortaCircuitoTraducida, "ja", "descripcion_corta_circuito");
+                    InsertaTraduccion("1", idCircuito, ContextCircuitoTraducida, "ja", "contexto");
+                    InsertaTraduccion("1", idCircuito, equipamentoCircuitoTraducida, "ja", "equipamento");
+                    InsertaTraduccion("1", idCircuito, recomendacionCircuitoTraducida, "ja", "recomendacion");
+                    InsertaTraduccion("1", idCircuito, campoTiempoEstimadoCircuitoTraducido, "ja", "tiempo_estimado");
+
+                    GeneraAudio("circuito", idCircuito, "descripcion_circuito", descripcionCircuitoTraducida, "ja");
+                    GeneraAudio("circuito", idCircuito, "descripcion_corta_circuito", descripcionCortaCircuitoTraducida, "ja");
+                    GeneraAudio("circuito", idCircuito, "contexto", contextoCircuitoTraducido, "ja");
+                    GeneraAudio("circuito", idCircuito, "equipamento", equipamentoCircuitoTraducido, "ja");
+                    GeneraAudio("circuito", idCircuito, "recomendacion", recomendacionCircuitoATraducida, "ja");
+
+                }
+
+                DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                TraduccionReturn response = new TraduccionReturn();
+                response.IdCircuito = idCircuito;
+                response.Mensaje = "Traduccion de " + nombreCircuitoEncontrado;
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+
+            }
+            else
+            {
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Circuitos_Idioma_PT/{IdCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposCircuitoIdiomaPT(string idCircuito, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+                DataSet dataSet = metodosMovile.pa_Consulta_CircuitoXId(idCircuito);
+
+
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreCircuito = row["nombre_circuito"].ToString();
+                    string descripcionCircuito = row["descripcion_circuito"].ToString();
+                    string descripcionCortaCircuito = row["descripcion_corta_circuito"].ToString();
+                    string contextoCircuito = row["contexto"].ToString();
+                    string equipamentoCircuito = row["equipamento"].ToString();
+                    string recomendacionCircuito = row["recomendacion"].ToString();
+                    string tiempoEstimadoCircuito = row["tiempo_estimado"].ToString();
+
+                    string nombreCircuitoTraducido = metodosMovile.pa_Traducir(nombreCircuito, "es", "pt");
+                    string descripcionCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCircuito, "es", "pt");
+                    string descripcionCortaCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCortaCircuito, "es", "pt");
+                    string contextoCircuitoTraducido = metodosMovile.pa_Traducir(contextoCircuito, "es", "pt");
+                    string equipamentoCircuitoTraducido = metodosMovile.pa_Traducir(equipamentoCircuito, "es", "pt");
+                    string recomendacionCircuitoATraducida = metodosMovile.pa_Traducir(recomendacionCircuito, "es", "pt");
+                    string campoTiempoCircuitoTraducido = metodosMovile.pa_Traducir(tiempoEstimadoCircuito, "es", "pt");
+
+                    string DescCircuitoTraducida = descripcionCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaCircuitoTraducida = descripcionCortaCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string ContextCircuitoTraducida = contextoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoCircuitoTraducida = equipamentoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionCircuitoTraducida = recomendacionCircuitoATraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string campoTiempoEstimadoCircuitoTraducido = campoTiempoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                    InsertaTraduccion("1", idCircuito, nombreCircuitoTraducido, "pt", "nombre_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCircuitoTraducida, "pt", "descripcion_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCortaCircuitoTraducida, "pt", "descripcion_corta_circuito");
+                    InsertaTraduccion("1", idCircuito, ContextCircuitoTraducida, "pt", "contexto");
+                    InsertaTraduccion("1", idCircuito, equipamentoCircuitoTraducida, "pt", "equipamento");
+                    InsertaTraduccion("1", idCircuito, recomendacionCircuitoTraducida, "pt", "recomendacion");
+                    InsertaTraduccion("1", idCircuito, campoTiempoEstimadoCircuitoTraducido, "pt", "tiempo_estimado");
+
+                    GeneraAudio("circuito", idCircuito, "descripcion_circuito", descripcionCircuitoTraducida, "pt");
+                    GeneraAudio("circuito", idCircuito, "descripcion_corta_circuito", descripcionCortaCircuitoTraducida, "pt");
+                    GeneraAudio("circuito", idCircuito, "contexto", contextoCircuitoTraducido, "pt");
+                    GeneraAudio("circuito", idCircuito, "equipamento", equipamentoCircuitoTraducido, "pt");
+                    GeneraAudio("circuito", idCircuito, "recomendacion", recomendacionCircuitoATraducida, "pt");
+
+                }
+
+                DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                TraduccionReturn response = new TraduccionReturn();
+                response.IdCircuito = idCircuito;
+                response.Mensaje = "Traduccion de " + nombreCircuitoEncontrado;
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+
+            }
+            else
+            {
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Circuitos_Idioma_RU/{IdCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposCircuitoIdiomaRU(string idCircuito, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+                DataSet dataSet = metodosMovile.pa_Consulta_CircuitoXId(idCircuito);
+
+
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreCircuito = row["nombre_circuito"].ToString();
+                    string descripcionCircuito = row["descripcion_circuito"].ToString();
+                    string descripcionCortaCircuito = row["descripcion_corta_circuito"].ToString();
+                    string contextoCircuito = row["contexto"].ToString();
+                    string equipamentoCircuito = row["equipamento"].ToString();
+                    string recomendacionCircuito = row["recomendacion"].ToString();
+                    string tiempoEstimadoCircuito = row["tiempo_estimado"].ToString();
+
+                    string nombreCircuitoTraducido = metodosMovile.pa_Traducir(nombreCircuito, "es", "ru");
+                    string descripcionCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCircuito, "es", "ru");
+                    string descripcionCortaCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCortaCircuito, "es", "ru");
+                    string contextoCircuitoTraducido = metodosMovile.pa_Traducir(contextoCircuito, "es", "ru");
+                    string equipamentoCircuitoTraducido = metodosMovile.pa_Traducir(equipamentoCircuito, "es", "ru");
+                    string recomendacionCircuitoATraducida = metodosMovile.pa_Traducir(recomendacionCircuito, "es", "ru");
+                    string campoTiempoCircuitoTraducido = metodosMovile.pa_Traducir(tiempoEstimadoCircuito, "es", "ru");
+
+                    string DescCircuitoTraducida = descripcionCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaCircuitoTraducida = descripcionCortaCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string ContextCircuitoTraducida = contextoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoCircuitoTraducida = equipamentoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionCircuitoTraducida = recomendacionCircuitoATraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string campoTiempoEstimadoCircuitoTraducido = campoTiempoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                    InsertaTraduccion("1", idCircuito, nombreCircuitoTraducido, "ru", "nombre_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCircuitoTraducida, "ru", "descripcion_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCortaCircuitoTraducida, "ru", "descripcion_corta_circuito");
+                    InsertaTraduccion("1", idCircuito, ContextCircuitoTraducida, "ru", "contexto");
+                    InsertaTraduccion("1", idCircuito, equipamentoCircuitoTraducida, "ru", "equipamento");
+                    InsertaTraduccion("1", idCircuito, recomendacionCircuitoTraducida, "ru", "recomendacion");
+                    InsertaTraduccion("1", idCircuito, campoTiempoEstimadoCircuitoTraducido, "ru", "tiempo_estimado");
+
+                    GeneraAudio("circuito", idCircuito, "descripcion_circuito", descripcionCircuitoTraducida, "ru");
+                    GeneraAudio("circuito", idCircuito, "descripcion_corta_circuito", descripcionCortaCircuitoTraducida, "ru");
+                    GeneraAudio("circuito", idCircuito, "contexto", contextoCircuitoTraducido, "ru");
+                    GeneraAudio("circuito", idCircuito, "equipamento", equipamentoCircuitoTraducido, "ru");
+                    GeneraAudio("circuito", idCircuito, "recomendacion", recomendacionCircuitoATraducida, "ru");
+
+                }
+
+                DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                TraduccionReturn response = new TraduccionReturn();
+                response.IdCircuito = idCircuito;
+                response.Mensaje = "Traduccion de " + nombreCircuitoEncontrado;
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+
+            }
+            else
+            {
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Circuitos_Idioma_TR/{IdCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposCircuitoIdiomaTR(string idCircuito, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+                DataSet dataSet = metodosMovile.pa_Consulta_CircuitoXId(idCircuito);
+
+
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreCircuito = row["nombre_circuito"].ToString();
+                    string descripcionCircuito = row["descripcion_circuito"].ToString();
+                    string descripcionCortaCircuito = row["descripcion_corta_circuito"].ToString();
+                    string contextoCircuito = row["contexto"].ToString();
+                    string equipamentoCircuito = row["equipamento"].ToString();
+                    string recomendacionCircuito = row["recomendacion"].ToString();
+                    string tiempoEstimadoCircuito = row["tiempo_estimado"].ToString();
+     
+
+                    string nombreCircuitoTraducido = metodosMovile.pa_Traducir(nombreCircuito, "es", "tr");
+                    string descripcionCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCircuito, "es", "tr");
+                    string descripcionCortaCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCortaCircuito, "es", "tr");
+                    string contextoCircuitoTraducido = metodosMovile.pa_Traducir(contextoCircuito, "es", "tr");
+                    string equipamentoCircuitoTraducido = metodosMovile.pa_Traducir(equipamentoCircuito, "es", "tr");
+                    string recomendacionCircuitoATraducida = metodosMovile.pa_Traducir(recomendacionCircuito, "es", "tr");
+                    string campoTiempoCircuitoTraducido = metodosMovile.pa_Traducir(tiempoEstimadoCircuito, "es", "tr");
+
+                    string DescCircuitoTraducida = descripcionCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaCircuitoTraducida = descripcionCortaCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string ContextCircuitoTraducida = contextoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoCircuitoTraducida = equipamentoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionCircuitoTraducida = recomendacionCircuitoATraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string campoTiempoEstimadoCircuitoTraducido = campoTiempoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                    InsertaTraduccion("1", idCircuito, nombreCircuitoTraducido, "tr", "nombre_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCircuitoTraducida, "tr", "descripcion_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCortaCircuitoTraducida, "tr", "descripcion_corta_circuito");
+                    InsertaTraduccion("1", idCircuito, ContextCircuitoTraducida, "tr", "contexto");
+                    InsertaTraduccion("1", idCircuito, equipamentoCircuitoTraducida, "tr", "equipamento");
+                    InsertaTraduccion("1", idCircuito, recomendacionCircuitoTraducida, "tr", "recomendacion");
+                    InsertaTraduccion("1", idCircuito, campoTiempoEstimadoCircuitoTraducido, "tr", "tiempo_estimado");
+
+                    GeneraAudio("circuito", idCircuito, "descripcion_circuito", descripcionCircuitoTraducida, "tr");
+                    GeneraAudio("circuito", idCircuito, "descripcion_corta_circuito", descripcionCortaCircuitoTraducida, "tr");
+                    GeneraAudio("circuito", idCircuito, "contexto", contextoCircuitoTraducido, "tr");
+                    GeneraAudio("circuito", idCircuito, "equipamento", equipamentoCircuitoTraducido, "tr");
+                    GeneraAudio("circuito", idCircuito, "recomendacion", recomendacionCircuitoATraducida, "tr");
+
+                }
+
+                DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                TraduccionReturn response = new TraduccionReturn();
+                response.IdCircuito = idCircuito;
+                response.Mensaje = "Traduccion de " + nombreCircuitoEncontrado;
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+
+            }
+            else
+            {
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Circuitos_Idioma_DE/{IdCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposCircuitoIdiomaDE(string idCircuito, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+                DataSet dataSet = metodosMovile.pa_Consulta_CircuitoXId(idCircuito);
+
+
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreCircuito = row["nombre_circuito"].ToString();
+                    string descripcionCircuito = row["descripcion_circuito"].ToString();
+                    string descripcionCortaCircuito = row["descripcion_corta_circuito"].ToString();
+                    string contextoCircuito = row["contexto"].ToString();
+                    string equipamentoCircuito = row["equipamento"].ToString();
+                    string recomendacionCircuito = row["recomendacion"].ToString();
+                    string tiempoEstimadoCircuito = row["tiempo_estimado"].ToString();
+
+                    string nombreCircuitoTraducido = metodosMovile.pa_Traducir(nombreCircuito, "es", "de");
+                    string descripcionCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCircuito, "es", "de");
+                    string descripcionCortaCircuitoTraducida = metodosMovile.pa_Traducir(descripcionCortaCircuito, "es", "de");
+                    string contextoCircuitoTraducido = metodosMovile.pa_Traducir(contextoCircuito, "es", "de");
+                    string equipamentoCircuitoTraducido = metodosMovile.pa_Traducir(equipamentoCircuito, "es", "de");
+                    string recomendacionCircuitoATraducida = metodosMovile.pa_Traducir(recomendacionCircuito, "es", "de");
+                    string campoTiempoCircuitoTraducido = metodosMovile.pa_Traducir(tiempoEstimadoCircuito, "es", "de");
+
+                    string DescCircuitoTraducida = descripcionCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaCircuitoTraducida = descripcionCortaCircuitoTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string ContextCircuitoTraducida = contextoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoCircuitoTraducida = equipamentoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionCircuitoTraducida = recomendacionCircuitoATraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string campoTiempoEstimadoCircuitoTraducido = campoTiempoCircuitoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                    InsertaTraduccion("1", idCircuito, nombreCircuitoTraducido, "de", "nombre_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCircuitoTraducida, "de", "descripcion_circuito");
+                    InsertaTraduccion("1", idCircuito, DescCortaCircuitoTraducida, "de", "descripcion_corta_circuito");
+                    InsertaTraduccion("1", idCircuito, ContextCircuitoTraducida, "de", "contexto");
+                    InsertaTraduccion("1", idCircuito, equipamentoCircuitoTraducida, "de", "equipamento");
+                    InsertaTraduccion("1", idCircuito, recomendacionCircuitoTraducida, "de", "recomendacion");
+                    InsertaTraduccion("1", idCircuito, campoTiempoEstimadoCircuitoTraducido, "tr", "tiempo_estimado");
+
+                    GeneraAudio("circuito", idCircuito, "descripcion_circuito", descripcionCircuitoTraducida, "de");
+                    GeneraAudio("circuito", idCircuito, "descripcion_corta_circuito", descripcionCortaCircuitoTraducida, "de");
+                    GeneraAudio("circuito", idCircuito, "contexto", contextoCircuitoTraducido, "de");
+                    GeneraAudio("circuito", idCircuito, "equipamento", equipamentoCircuitoTraducido, "de");
+                    GeneraAudio("circuito", idCircuito, "recomendacion", recomendacionCircuitoATraducida, "de");
+
+                }
+
+                DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                TraduccionReturn response = new TraduccionReturn();
+                response.IdCircuito = idCircuito;
+                response.Mensaje = "Traduccion de " + nombreCircuitoEncontrado;
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+
+            }
+            else
+            {
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Generar_Nombre_Sitios/{nombreSitio}/{IdCircuito}/{NumeroDias}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string ConsultaSitios(string nombreSitio, string idCircuito,string NumeroDias ,string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
             ATT_WS.AppToTripWSSoapClient objWs = new ATT_WS.AppToTripWSSoapClient();
-            //try
-            //{
-            string CamposNombre = "nombre_sitio";
-            string DatosNombre = NombreSitio;
-            string idSitio = objWs.pa_Insert_General("sitio", idCircuito.ToString(), CamposNombre, DatosNombre, "es");
+            if (TokenApi == Desencripta)
+            {
+                try
+                {
+                    string NombreLugar = nombreSitio;
+                    string[] partes = NombreLugar.Split(' ');
+                    string primerLugar = string.Join(" ", partes.Take(partes.Length - 1));
+                    //int OrdenImagenSitio = 1;
+                    int Orden = 1;
+                    int maxLugares = 5;
+                    string primerLugarName = primerLugar.ToLower();
+                    string NombreLugarName = NombreLugar.ToLower();
+                    var ResponseGooglePlaces = BuscarLugaresDestacados(primerLugar);
+                    List<string> Lugares = new List<string>();
+                    if (int.TryParse(NumeroDias, out int numDias))
+                    {                       
+                        if (numDias == 1)
+                        {
+                            maxLugares = 5;
+                        }
+                        else if (numDias == 2)
+                        {
+                            maxLugares = 8;
+                        }
+                        else if (numDias == 3)
+                        {
+                            maxLugares = 10;
+                        }
+                        else if (numDias == 4)
+                        {
+                            maxLugares = 13;
+                        }
+                        else if (numDias == 5)
+                        {
+                            maxLugares = 16;
+                        }
+                        else if (numDias == 6)
+                        {
+                            maxLugares = 18;
+                        }
+                        else if (numDias == 7)
+                        {
+                            maxLugares = 20;
+                        }
+                    
 
-            string CamposOrden = "orden";
-            string DatosOrden = Orden.ToString();
-            objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposOrden, DatosOrden, "es");
+                    foreach (string lugar in ResponseGooglePlaces)
+                        {
+                            string lugarLower = lugar.ToLower();
 
-            //string CamposLatitud = "latitud";
-            //string DatosLatitud = dtInfoSitio.Rows[0]["latitud"].ToString();
-            //objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposLatitud, DatosLatitud, "es");
+                            if (!lugarLower.Contains(primerLugarName) && !lugarLower.Contains(NombreLugarName))
+                            {
+                                if (!Lugares.Contains(lugar, StringComparer.OrdinalIgnoreCase))
+                                {
+                                    Lugares.Add(lugar);
 
-            //string CamposLongitud = "longitud";
-            //string DatosLongitud = dtInfoSitio.Rows[0]["longitud"].ToString();
-            //objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposLongitud, DatosLongitud, "es");
+                                    if (Lugares.Count >= maxLugares)
+                                    {
+                                        break; 
+                                    }
+                                }
+                            }
+                        }
+                    }
 
-            string CamposDescripcion = "descripcion_sitio";
-            string DatosDescripcion = dtInfoSitio.Rows[0]["descripcion"].ToString();
-            objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposDescripcion, DatosDescripcion, "es");
+                    string[] SitesNames = Lugares.ToArray();
 
-            string CamposDescripcionCorta = "descripcion_corta_sitio";
-            string DatosDescripcionCorta = dtInfoSitio.Rows[0]["descripcion_corta_sitio"].ToString();
-            objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposDescripcionCorta, DatosDescripcionCorta, "es");
+                    string primerIdSitio = null;
+                    string primerNombre = null;
 
-            string CamposEquipamento = "equipamento";
-            string DatosEquipamento = dtInfoSitio.Rows[0]["equipamento"].ToString();
-            objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposEquipamento, DatosEquipamento, "es");
+                    foreach (string sitio in SitesNames)
+                    {
 
-            string CamposRecomendacion = "recomendacion";
-            string DatosRecomendacion = dtInfoSitio.Rows[0]["recomendaciones"].ToString();
-            objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposRecomendacion, DatosRecomendacion, "es");
+                        Coordenadas Coordenada = BuscarCoordenadas(sitio, nombreSitio);
+                        if (Coordenada != null)
+                        {
+                            string latitud = Coordenada.Latitud.Replace(",", ".");
+                            string longitud = Coordenada.Longitud.Replace(",", ".");
 
-            string CamposIndicaciones = "indicaciones";
-            string DatosIndicaciones = dtInfoSitio.Rows[0]["recomendaciones"].ToString();
-            objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposIndicaciones, DatosIndicaciones, "es");
+                            string CamposNombre = "nombre_sitio";
+                            string DatosNombre = sitio;
+                            string idSitio = objWs.pa_Insert_General("sitio", idCircuito.ToString(), CamposNombre, DatosNombre, "es");
 
-            string CamposLatitud = "latitud";
-            string DatosLatitud = latitud;
-            objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposLatitud, DatosLatitud, "es");
+                            string CamposOrden = "orden";
+                            string DatosOrden = Orden.ToString();
+                            objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposOrden, DatosOrden, "es");
+                            Orden++;
 
-            string CamposLongitud = "longitud";
-            string DatosLongitud = longitud;
-            objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposLongitud, DatosLongitud, "es");
+                            string CamposLatitud = "latitud";
+                            string DatosLatitud = latitud;
+                            objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposLatitud, DatosLatitud, "es");
+
+                            string CamposLongitud = "longitud";
+                            string DatosLongitud = longitud;
+                            objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposLongitud, DatosLongitud, "es");
+
+                            if (primerIdSitio == null && primerNombre == null)
+                            {
+                                primerNombre = sitio;
+                                primerIdSitio = idSitio;
+
+                            }
+
+                        }
+                    }
+
+
+                    //return primerIdSitio;
+                    ConsultaSitiosReturn response = new ConsultaSitiosReturn();
+                    response.Mensaje = nombreSitio;
+                    response.PrimerNombre = primerNombre;
+                    response.PrimerIdSitio = primerIdSitio;
+                    response.idCircuito = idCircuito;
+                    response.cantidad = SitesNames.Count();
+                    
+
+                    //return response;
+                    string json = JsonConvert.SerializeObject(response, Formatting.None);
+                    byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                    Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                    return json;
+                }
+                catch (Exception ex)
+                {
+                    return ex.Message;
+                  
+                }
+            }
+            else
+            {
+                
+                return "{resultado:Error token cliente}";
+               
+            }
+        }
+     
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Generar_Info_Sitios/{sitio}/{nombreciudad}/{idSitio}/{idCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string GeneraInfoSitio(string sitio, string nombreciudad, string idSitio,string idCircuito ,string TokenApi)
+        {
+
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+            ATT_WS.AppToTripWSSoapClient objWs = new ATT_WS.AppToTripWSSoapClient();
+            if (TokenApi == Desencripta)
+            {
+             
+
+                try
+                {
+                    
+                    DataTable dtPreguntasSitio = metodosMovile.au_Consulta_Sitio(nombreciudad);
+                    string PreguntaSitios = dtPreguntasSitio.Rows[0]["Pregunta_Sitio"].ToString();
+                    int OrdenImagenSitio = 1;
+
+                   // string PreguntaDescSitio = "Ponte en el papel de un buen GUIA DE TURISMO HACIENDO REFERENCIA EN ESTE ORDEN A EN EL PRIMER PARRAFO DESCRIPCION JOCOSA EXTENDIDA, SEGUNDO PARRAFO DESCRIPCION CORTA , TERCER PARRAFO EQUIPAMIENTO, CUARTO PARRAFO RECOMENDACIONES Y QUINTO PARRAFO INDICACIONES COMO EN EL SIGUIENTE EJEMPLO: " +
+
+                   //    "1- El Viaducto de Pereira es una impresionante estructura vial que atraviesa la ciudad. Con su diseño arquitectónico único y sus vistas panorámicas, es un punto de referencia emblemático el Viaducto de Pereira es una impresionante estructura vial que atraviesa la ciudad.Con su diseño arquitectónico único y sus vistas panorámicas, es un punto de referencia emblemático que ofrece diversas actividades y atracciones para los visitantes,el Viaducto de Pereira ofrece impresionantes vistas de la ciudad y sus alrededores.|" +
+                   //    "2- Bienvenido al  rplcsitio y disfruta.(NO MAS DE 150 CARACTERES)|" +
+                   //    "3- Cámara fotográfica, protector solar, calzado cómodo.|" +
+                   //    "4- Disfruta de la vista panorámica y captura fotos increíbles.|" +
+                   //    "5- El viaducto se encuentra en el centro de la ciudad de Pereira, conectando diferentes sectores y facilitando el tránsito entre ellos.| " +
+                   // "QUIERO OBTENER  ESPECIFICACIONES COMO LAS DEL EJEMPLO PERO CON EL CONTENIDO Y CARACTERISTICAS DEL SITIO QUE HE PEDIDO: rplcsitio de rplcnombresitios" +
+                   //" TIENE QUE TENER ESA MISMA ESTRUCTURA DEL SITIO QUE PEDÍ, CADA PARRAFO DEBE TERMINAR CON | NO USES SALTOS DE LINEAS, EN EL PARRAFO 2 NO EXCEDAS LOS 150 CARACTERES";
+
+                    string PreguntaDescSitio = PreguntaSitios.Replace("rplcsitio", sitio).Replace("rplcnombresitios",nombreciudad);
+                    string RespuestaDesSitio = ConsumeGpt(PreguntaDescSitio);
+                    DataTable dtInfoSitio = ConvertirCadenaTablaSitio(RespuestaDesSitio);
+                    //string idSitio = InsertaSitio(idCircuito, sitio, Orden, dtInfoSitio, latitud, longitud);
+
+                    string CamposDescripcion = "descripcion_sitio";
+                    string DatosDescripcion = dtInfoSitio.Rows[0]["descripcion"].ToString();
+                    objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposDescripcion, DatosDescripcion, "es");
+
+                    string CamposDescripcionCorta = "descripcion_corta_sitio";
+                    string DatosDescripcionCorta = dtInfoSitio.Rows[0]["descripcion_corta_sitio"].ToString();
+                    objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposDescripcionCorta, DatosDescripcionCorta, "es");
+
+                    string CamposEquipamento = "equipamento";
+                    string DatosEquipamento = dtInfoSitio.Rows[0]["equipamento"].ToString();
+                    objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposEquipamento, DatosEquipamento, "es");
+
+                    string CamposRecomendacion = "recomendacion";
+                    string DatosRecomendacion = dtInfoSitio.Rows[0]["recomendaciones"].ToString();
+                    objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposRecomendacion, DatosRecomendacion, "es");
+
+                    string CamposIndicaciones = "indicaciones";
+                    string DatosIndicaciones = dtInfoSitio.Rows[0]["indicaciones"].ToString();
+                    objWs.pa_Actualiza_General("sitio", idSitio.ToString(), CamposIndicaciones, DatosIndicaciones, "es");
+
+                    string respuestaImagen = buscarImagen(sitio);
+                    metodosMovile.InsertarImagenSitio(respuestaImagen, respuestaImagen, OrdenImagenSitio, idSitio);
+                    OrdenImagenSitio++;
 
 
 
-            return idSitio;
-            //string CamposImagenSitio = "imagen";
-            //string DatosImagenSitio = imagenSitio;
-            //objWs.pa_Insert_General("imagen_sitio", idSitio.ToString(), CamposImagenSitio, DatosImagenSitio, "es");
+                    TraduccionReturnSitio response = new TraduccionReturnSitio();
+                    response.IdSitio = idSitio;
+                    response.Mensaje = sitio;
+                    response.IdCircuito = idCircuito;
+                    
+                    response.Img = respuestaImagen;
+                    //response.NextIdSitio = siguienteIdSitio;
+                    //response.NextNombreSitio = nombreSitioEncontrado;
+                    //response.NombreCircuito = nombreCircuitoEncontrado;
 
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
-            //}
+                    string json = JsonConvert.SerializeObject(response, Formatting.None);
+                    byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                    Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                    return json;
+
+                }
+                catch (Exception ex)
+                {
+                    
+                    return ex.Message;
+                    //return "{resultado:Error 2}";
+                }
+            }
+            else
+            {
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Sitio/{IdSitio}/{idCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposSitio(string idSitio,string idCircuito, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+                
+                string[] idiomas = { "en", "fr", "it", "ja", "pt", "ru", "tr", "de" };
+
+                DataSet dataSet = metodosMovile.pa_Consulta_SitioIdiomaXId(idSitio);
+
+               
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                    
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreSitio= row["nombre_sitio"].ToString();
+                    string descripcionSitio = row["descripcion_sitio"].ToString();
+                    string descripcionCortaSitio = row["descripcion_corta_sitio"].ToString();
+                    string equipamentoSitio = row["equipamento"].ToString();
+                    string recomendacionSitio = row["recomendacion"].ToString();
+                    string IndicacionesSitio = row["indicaciones"].ToString();
+
+                    foreach (string idiomaDestino in idiomas)
+                    {
+                        string DatosnombreSitio = metodosMovile.pa_Traducir(nombreSitio, "es", idiomaDestino);
+                        string DatosDescripcionTraducida = metodosMovile.pa_Traducir(descripcionSitio, "es", idiomaDestino);
+                        string DatosDescripcionCortaTraducida = metodosMovile.pa_Traducir(descripcionCortaSitio, "es", idiomaDestino);
+                        string DatosEquipamentoTraducido = metodosMovile.pa_Traducir(equipamentoSitio, "es", idiomaDestino);
+                        string DatosRecomendacionTraducida = metodosMovile.pa_Traducir(recomendacionSitio, "es", idiomaDestino);
+                        string DatosIndicacionesTraducida = metodosMovile.pa_Traducir(IndicacionesSitio, "es", idiomaDestino);
+
+                        string descSitioTraducida = DatosDescripcionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string DescCortaSitioTraducida = DatosDescripcionCortaTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string equipamentoSitioTraducida = DatosEquipamentoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string recomendacionesSitioTraducida = DatosRecomendacionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string IndicacionesSitioTraducida = DatosIndicacionesTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                       
+                        InsertaTraduccion("2", idSitio, DatosnombreSitio, idiomaDestino, "nombre_sitio");
+                        InsertaTraduccion("2", idSitio, descSitioTraducida, idiomaDestino, "descripcion_sitio");
+                        InsertaTraduccion("2", idSitio, DescCortaSitioTraducida, idiomaDestino, "descripcion_corta_sitio");
+                        InsertaTraduccion("2", idSitio, equipamentoSitioTraducida, idiomaDestino, "equipamento");
+                        InsertaTraduccion("2", idSitio, recomendacionesSitioTraducida, idiomaDestino, "recomendacion");
+                        InsertaTraduccion("2", idSitio, IndicacionesSitioTraducida, idiomaDestino, "indicaciones");
+
+
+                    }
+
+
+                }
+
+                TraduccionReturnSitio response = new TraduccionReturnSitio();
+                response.IdSitio = idSitio;
+                response.Mensaje = "Traduciendo información de los sitios";
+                response.IdCircuito = idCircuito;
+                
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+                return json;
+
+            }
+            else
+            {
+                
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Sitio_Idioma_Destino/{IdSitio}/{idCircuito}/{codIdioma}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposSitioIdiomaDestino(string idSitio, string idCircuito,string codIdioma ,string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+                
+                DataSet dataSet = metodosMovile.pa_Consulta_SitioIdiomaXId(idSitio);
+                
+                
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                    
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreDeSitio = row["nombre_sitio"].ToString();
+                    string descripcionSitio = row["descripcion_sitio"].ToString();
+                    string descripcionCortaSitio = row["descripcion_corta_sitio"].ToString();
+                    string equipamentoSitio = row["equipamento"].ToString();
+                    string recomendacionSitio = row["recomendacion"].ToString();
+                    string IndicacionesSitio = row["indicaciones"].ToString();
+
+                    
+                        string DatosnombreSitio = metodosMovile.pa_Traducir(nombreDeSitio, "es", codIdioma);
+                        string DatosDescripcionTraducida = metodosMovile.pa_Traducir(descripcionSitio, "es", codIdioma);
+                        string DatosDescripcionCortaTraducida = metodosMovile.pa_Traducir(descripcionCortaSitio, "es", codIdioma);
+                        string DatosEquipamentoTraducido = metodosMovile.pa_Traducir(equipamentoSitio, "es", codIdioma);
+                        string DatosRecomendacionTraducida = metodosMovile.pa_Traducir(recomendacionSitio, "es", codIdioma);
+                        string DatosIndicacionesTraducida = metodosMovile.pa_Traducir(IndicacionesSitio, "es", codIdioma);
+
+                        string descSitioTraducida = DatosDescripcionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string DescCortaSitioTraducida = DatosDescripcionCortaTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string equipamentoSitioTraducida = DatosEquipamentoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string recomendacionesSitioTraducida = DatosRecomendacionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                        string IndicacionesSitioTraducida = DatosIndicacionesTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                        
+                        InsertaTraduccion("2", idSitio, DatosnombreSitio, codIdioma, "nombre_sitio");
+                        InsertaTraduccion("2", idSitio, descSitioTraducida, codIdioma, "descripcion_sitio");
+                        InsertaTraduccion("2", idSitio, DescCortaSitioTraducida, codIdioma, "descripcion_corta_sitio");
+                        InsertaTraduccion("2", idSitio, equipamentoSitioTraducida, codIdioma, "equipamento");
+                        InsertaTraduccion("2", idSitio, recomendacionesSitioTraducida, codIdioma, "recomendacion");
+                        InsertaTraduccion("2", idSitio, IndicacionesSitioTraducida, codIdioma, "indicaciones");
+
+                        GeneraAudio("sitio", idSitio, "descripcion_sitio", DatosDescripcionTraducida, codIdioma);
+                        GeneraAudio("sitio", idSitio, "descripcion_corta_sitio", DatosDescripcionCortaTraducida, codIdioma);
+                        GeneraAudio("sitio", idSitio, "equipamento", DatosEquipamentoTraducido, codIdioma);
+                        GeneraAudio("sitio", idSitio, "recomendacion", DatosRecomendacionTraducida, codIdioma);
+                        GeneraAudio("sitio", idSitio, "indicaciones", DatosIndicacionesTraducida, codIdioma);
+                }
+                DataRow rowNombre = dataSet.Tables[0].Rows[2];
+                string nombreDelSitio = rowNombre["nombre_sitio"].ToString();
+
+                string nombreSitioEncontrado = string.Empty;
+                string siguienteIdSitio = string.Empty;
+                DataSet ds = metodosMovile.pa_Consulta_SiguienteIdSitio_Value(idCircuito);
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds.Tables[0].Columns.Contains("id_sitio"))
+                    {
+                        siguienteIdSitio = ds.Tables[0].Rows[0]["id_sitio"].ToString();
+                    }
+                    else if (ds.Tables[0].Columns.Contains("colum1"))
+                    {
+                        siguienteIdSitio = ds.Tables[0].Rows[0]["colum1"].ToString();
+                    }
+                }
+                else
+                {
+                    siguienteIdSitio = "0";
+                }
+                
+
+                DataSet nombreSitio = metodosMovile.pa_Consulta_Nombre_SitioXId(siguienteIdSitio);
+                
+                if (nombreSitio.Tables.Count > 0 && nombreSitio.Tables[0].Rows.Count > 2)
+                {
+                    if (nombreSitio.Tables[0].Rows[2]["nombre_sitio"] != DBNull.Value)
+                    {
+                        nombreSitioEncontrado = nombreSitio.Tables[0].Rows[2]["nombre_sitio"].ToString();
+                    }
+                    else
+                    {
+
+                        nombreSitioEncontrado = "Nombre de Sitio No Encontrado";
+                    }
+                }
+                else
+                {
+
+                    nombreSitioEncontrado = "Nombre de Sitio No Encontrado";
+                }
+
+
+                DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                messageReturn response = new messageReturn();
+                response.NextIdSitio = siguienteIdSitio;
+                response.NextNombreSitio = nombreSitioEncontrado;
+                response.NombreCircuito = nombreCircuitoEncontrado;
+                response.idCircuito = idCircuito;
+                response.Message =  nombreDelSitio;
+
+
+                
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                return json;
+
+            }
+            else
+            {
+                
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Sitio_Idioma_FR/{IdSitio}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposSitioIdiomaFR(string idSitio, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+                
+                DataSet dataSet = metodosMovile.pa_Consulta_SitioIdiomaXId(idSitio);
+
+                
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                    
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreDeSitio = row["nombre_sitio"].ToString();
+                    string descripcionSitio = row["descripcion_sitio"].ToString();
+                    string descripcionCortaSitio = row["descripcion_corta_sitio"].ToString();
+                    string equipamentoSitio = row["equipamento"].ToString();
+                    string recomendacionSitio = row["recomendacion"].ToString();
+                    string IndicacionesSitio = row["indicaciones"].ToString();
+
+
+                    string DatosnombreSitio = metodosMovile.pa_Traducir(nombreDeSitio, "es", "fr");
+                    string DatosDescripcionTraducida = metodosMovile.pa_Traducir(descripcionSitio, "es", "fr");
+                    string DatosDescripcionCortaTraducida = metodosMovile.pa_Traducir(descripcionCortaSitio, "es", "fr");
+                    string DatosEquipamentoTraducido = metodosMovile.pa_Traducir(equipamentoSitio, "es", "fr");
+                    string DatosRecomendacionTraducida = metodosMovile.pa_Traducir(recomendacionSitio, "es", "fr");
+                    string DatosIndicacionesTraducida = metodosMovile.pa_Traducir(IndicacionesSitio, "es", "fr");
+
+                    string descSitioTraducida = DatosDescripcionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaSitioTraducida = DatosDescripcionCortaTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoSitioTraducida = DatosEquipamentoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionesSitioTraducida = DatosRecomendacionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string IndicacionesSitioTraducida = DatosIndicacionesTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                    
+                    InsertaTraduccion("2", idSitio, DatosnombreSitio, "fr", "nombre_sitio");
+                    InsertaTraduccion("2", idSitio, descSitioTraducida, "fr", "descripcion_sitio");
+                    InsertaTraduccion("2", idSitio, DescCortaSitioTraducida, "fr", "descripcion_corta_sitio");
+                    InsertaTraduccion("2", idSitio, equipamentoSitioTraducida, "fr", "equipamento");
+                    InsertaTraduccion("2", idSitio, recomendacionesSitioTraducida, "fr", "recomendacion");
+                    InsertaTraduccion("2", idSitio, IndicacionesSitioTraducida, "fr", "indicaciones");
+
+                    GeneraAudio("sitio", idSitio, "descripcion_sitio", DatosDescripcionTraducida, "fr");
+                    GeneraAudio("sitio", idSitio, "descripcion_corta_sitio", DatosDescripcionCortaTraducida, "fr");
+                    GeneraAudio("sitio", idSitio, "equipamento", DatosEquipamentoTraducido, "fr");
+                    GeneraAudio("sitio", idSitio, "recomendacion", DatosRecomendacionTraducida, "fr");
+                    GeneraAudio("sitio", idSitio, "indicaciones", DatosIndicacionesTraducida, "fr");
+                }
+
+                messageReturn response = new messageReturn();
+               
+                response.Message = "Creando audios "; 
+
+
+                
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                return json;
+       
+
+            }
+            else
+            {
+                
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Sitio_Idioma_EN/{IdSitio}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposSitioIdiomaEN(string idSitio, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+                DataSet dataSet = metodosMovile.pa_Consulta_SitioIdiomaXId(idSitio);
+
+               
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                   
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreDeSitio = row["nombre_sitio"].ToString();
+                    string descripcionSitio = row["descripcion_sitio"].ToString();
+                    string descripcionCortaSitio = row["descripcion_corta_sitio"].ToString();
+                    string equipamentoSitio = row["equipamento"].ToString();
+                    string recomendacionSitio = row["recomendacion"].ToString();
+                    string IndicacionesSitio = row["indicaciones"].ToString();
+
+
+                    string DatosnombreSitio = metodosMovile.pa_Traducir(nombreDeSitio, "es", "en");
+                    string DatosDescripcionTraducida = metodosMovile.pa_Traducir(descripcionSitio, "es", "en");
+                    string DatosDescripcionCortaTraducida = metodosMovile.pa_Traducir(descripcionCortaSitio, "es", "en");
+                    string DatosEquipamentoTraducido = metodosMovile.pa_Traducir(equipamentoSitio, "es", "en");
+                    string DatosRecomendacionTraducida = metodosMovile.pa_Traducir(recomendacionSitio, "es", "en");
+                    string DatosIndicacionesTraducida = metodosMovile.pa_Traducir(IndicacionesSitio, "es", "en");
+
+                    string descSitioTraducida = DatosDescripcionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaSitioTraducida = DatosDescripcionCortaTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoSitioTraducida = DatosEquipamentoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionesSitioTraducida = DatosRecomendacionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string IndicacionesSitioTraducida = DatosIndicacionesTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                  
+                    InsertaTraduccion("2", idSitio, DatosnombreSitio, "en", "nombre_sitio");
+                    InsertaTraduccion("2", idSitio, descSitioTraducida, "en", "descripcion_sitio");
+                    InsertaTraduccion("2", idSitio, DescCortaSitioTraducida, "en", "descripcion_corta_sitio");
+                    InsertaTraduccion("2", idSitio, equipamentoSitioTraducida, "en", "equipamento");
+                    InsertaTraduccion("2", idSitio, recomendacionesSitioTraducida, "en", "recomendacion");
+                    InsertaTraduccion("2", idSitio, IndicacionesSitioTraducida, "en", "indicaciones");
+
+                    GeneraAudio("sitio", idSitio, "descripcion_sitio", DatosDescripcionTraducida, "en");
+                    GeneraAudio("sitio", idSitio, "descripcion_corta_sitio", DatosDescripcionCortaTraducida, "en");
+                    GeneraAudio("sitio", idSitio, "equipamento", DatosEquipamentoTraducido, "en");
+                    GeneraAudio("sitio", idSitio, "recomendacion", DatosRecomendacionTraducida, "en");
+                    GeneraAudio("sitio", idSitio, "indicaciones", DatosIndicacionesTraducida, "en");
+                }
+
+                messageReturn response = new messageReturn();
+               
+                response.Message = "Creando audios";
+
+
+                //return response;
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                return json;
+           
+
+            }
+            else
+            {
+                
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Sitio_Idioma_IT/{IdSitio}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposSitioIdiomaIT(string idSitio,  string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+                
+
+                DataSet dataSet = metodosMovile.pa_Consulta_SitioIdiomaXId(idSitio);
+
+               
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                   
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreDeSitio = row["nombre_sitio"].ToString();
+                    string descripcionSitio = row["descripcion_sitio"].ToString();
+                    string descripcionCortaSitio = row["descripcion_corta_sitio"].ToString();
+                    string equipamentoSitio = row["equipamento"].ToString();
+                    string recomendacionSitio = row["recomendacion"].ToString();
+                    string IndicacionesSitio = row["indicaciones"].ToString();
+
+
+                    string DatosnombreSitio = metodosMovile.pa_Traducir(nombreDeSitio, "es", "it");
+                    string DatosDescripcionTraducida = metodosMovile.pa_Traducir(descripcionSitio, "es", "it");
+                    string DatosDescripcionCortaTraducida = metodosMovile.pa_Traducir(descripcionCortaSitio, "es", "it");
+                    string DatosEquipamentoTraducido = metodosMovile.pa_Traducir(equipamentoSitio, "es", "it");
+                    string DatosRecomendacionTraducida = metodosMovile.pa_Traducir(recomendacionSitio, "es", "it");
+                    string DatosIndicacionesTraducida = metodosMovile.pa_Traducir(IndicacionesSitio, "es", "it");
+
+                    string descSitioTraducida = DatosDescripcionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaSitioTraducida = DatosDescripcionCortaTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoSitioTraducida = DatosEquipamentoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionesSitioTraducida = DatosRecomendacionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string IndicacionesSitioTraducida = DatosIndicacionesTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                 
+                    InsertaTraduccion("2", idSitio, DatosnombreSitio, "it", "nombre_sitio");
+                    InsertaTraduccion("2", idSitio, descSitioTraducida, "it", "descripcion_sitio");
+                    InsertaTraduccion("2", idSitio, DescCortaSitioTraducida, "it", "descripcion_corta_sitio");
+                    InsertaTraduccion("2", idSitio, equipamentoSitioTraducida, "it", "equipamento");
+                    InsertaTraduccion("2", idSitio, recomendacionesSitioTraducida, "it", "recomendacion");
+                    InsertaTraduccion("2", idSitio, IndicacionesSitioTraducida, "it", "indicaciones");
+
+                    GeneraAudio("sitio", idSitio, "descripcion_sitio", DatosDescripcionTraducida, "it");
+                    GeneraAudio("sitio", idSitio, "descripcion_corta_sitio", DatosDescripcionCortaTraducida, "it");
+                    GeneraAudio("sitio", idSitio, "equipamento", DatosEquipamentoTraducido, "it");
+                    GeneraAudio("sitio", idSitio, "recomendacion", DatosRecomendacionTraducida, "it");
+                    GeneraAudio("sitio", idSitio, "indicaciones", DatosIndicacionesTraducida, "it");
+                }
+
+                messageReturn response = new messageReturn();
+            
+                response.Message = "Creando audios";
+
+
+                
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                return json;
+          
+
+            }
+            else
+            {
+               
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Sitio_Idioma_JA/{IdSitio}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposSitioIdiomaJA(string idSitio, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+
+                DataSet dataSet = metodosMovile.pa_Consulta_SitioIdiomaXId(idSitio);
+
+                
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                   
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreDeSitio = row["nombre_sitio"].ToString();
+                    string descripcionSitio = row["descripcion_sitio"].ToString();
+                    string descripcionCortaSitio = row["descripcion_corta_sitio"].ToString();
+                    string equipamentoSitio = row["equipamento"].ToString();
+                    string recomendacionSitio = row["recomendacion"].ToString();
+                    string IndicacionesSitio = row["indicaciones"].ToString();
+
+
+                    string DatosnombreSitio = metodosMovile.pa_Traducir(nombreDeSitio, "es", "ja");
+                    string DatosDescripcionTraducida = metodosMovile.pa_Traducir(descripcionSitio, "es", "ja");
+                    string DatosDescripcionCortaTraducida = metodosMovile.pa_Traducir(descripcionCortaSitio, "es", "ja");
+                    string DatosEquipamentoTraducido = metodosMovile.pa_Traducir(equipamentoSitio, "es", "ja");
+                    string DatosRecomendacionTraducida = metodosMovile.pa_Traducir(recomendacionSitio, "es", "ja");
+                    string DatosIndicacionesTraducida = metodosMovile.pa_Traducir(IndicacionesSitio, "es", "ja");
+
+                    string descSitioTraducida = DatosDescripcionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaSitioTraducida = DatosDescripcionCortaTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoSitioTraducida = DatosEquipamentoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionesSitioTraducida = DatosRecomendacionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string IndicacionesSitioTraducida = DatosIndicacionesTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                 
+                    InsertaTraduccion("2", idSitio, DatosnombreSitio, "ja", "nombre_sitio");
+                    InsertaTraduccion("2", idSitio, descSitioTraducida, "ja", "descripcion_sitio");
+                    InsertaTraduccion("2", idSitio, DescCortaSitioTraducida, "ja", "descripcion_corta_sitio");
+                    InsertaTraduccion("2", idSitio, equipamentoSitioTraducida, "ja", "equipamento");
+                    InsertaTraduccion("2", idSitio, recomendacionesSitioTraducida, "ja", "recomendacion");
+                    InsertaTraduccion("2", idSitio, IndicacionesSitioTraducida, "ja", "indicaciones");
+
+                    GeneraAudio("sitio", idSitio, "descripcion_sitio", DatosDescripcionTraducida, "ja");
+                    GeneraAudio("sitio", idSitio, "descripcion_corta_sitio", DatosDescripcionCortaTraducida, "ja");
+                    GeneraAudio("sitio", idSitio, "equipamento", DatosEquipamentoTraducido, "ja");
+                    GeneraAudio("sitio", idSitio, "recomendacion", DatosRecomendacionTraducida, "ja");
+                    GeneraAudio("sitio", idSitio, "indicaciones", DatosIndicacionesTraducida, "ja");
+                }
+
+                messageReturn response = new messageReturn();
+              
+                response.Message = "Creando audios";
+
+
+               
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                return json;
+         
+
+            }
+            else
+            {
+               
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Sitio_Idioma_PT/{IdSitio}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposSitioIdiomaPT(string idSitio, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+
+                DataSet dataSet = metodosMovile.pa_Consulta_SitioIdiomaXId(idSitio);
+
+               
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                   
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreDeSitio = row["nombre_sitio"].ToString();
+                    string descripcionSitio = row["descripcion_sitio"].ToString();
+                    string descripcionCortaSitio = row["descripcion_corta_sitio"].ToString();
+                    string equipamentoSitio = row["equipamento"].ToString();
+                    string recomendacionSitio = row["recomendacion"].ToString();
+                    string IndicacionesSitio = row["indicaciones"].ToString();
+
+
+                    string DatosnombreSitio = metodosMovile.pa_Traducir(nombreDeSitio, "es", "pt");
+                    string DatosDescripcionTraducida = metodosMovile.pa_Traducir(descripcionSitio, "es", "pt");
+                    string DatosDescripcionCortaTraducida = metodosMovile.pa_Traducir(descripcionCortaSitio, "es", "pt");
+                    string DatosEquipamentoTraducido = metodosMovile.pa_Traducir(equipamentoSitio, "es", "pt");
+                    string DatosRecomendacionTraducida = metodosMovile.pa_Traducir(recomendacionSitio, "es", "pt");
+                    string DatosIndicacionesTraducida = metodosMovile.pa_Traducir(IndicacionesSitio, "es", "pt");
+
+                    string descSitioTraducida = DatosDescripcionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaSitioTraducida = DatosDescripcionCortaTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoSitioTraducida = DatosEquipamentoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionesSitioTraducida = DatosRecomendacionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string IndicacionesSitioTraducida = DatosIndicacionesTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+                    
+                    InsertaTraduccion("2", idSitio, DatosnombreSitio, "pt", "nombre_sitio");
+                    InsertaTraduccion("2", idSitio, descSitioTraducida, "pt", "descripcion_sitio");
+                    InsertaTraduccion("2", idSitio, DescCortaSitioTraducida, "pt", "descripcion_corta_sitio");
+                    InsertaTraduccion("2", idSitio, equipamentoSitioTraducida, "pt", "equipamento");
+                    InsertaTraduccion("2", idSitio, recomendacionesSitioTraducida, "pt", "recomendacion");
+                    InsertaTraduccion("2", idSitio, IndicacionesSitioTraducida, "pt", "indicaciones");
+
+                    GeneraAudio("sitio", idSitio, "descripcion_sitio", DatosDescripcionTraducida, "pt");
+                    GeneraAudio("sitio", idSitio, "descripcion_corta_sitio", DatosDescripcionCortaTraducida, "pt");
+                    GeneraAudio("sitio", idSitio, "equipamento", DatosEquipamentoTraducido, "pt");
+                    GeneraAudio("sitio", idSitio, "recomendacion", DatosRecomendacionTraducida, "pt");
+                    GeneraAudio("sitio", idSitio, "indicaciones", DatosIndicacionesTraducida, "pt");
+                }
+
+                messageReturn response = new messageReturn();
+               
+                response.Message = "Creando audios"; 
+
+
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                return json;
+       
+            }
+            else
+            {
+                
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Sitio_Idioma_RU/{IdSitio}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposSitioIdiomaRU(string idSitio, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+
+                DataSet dataSet = metodosMovile.pa_Consulta_SitioIdiomaXId(idSitio);
+
+
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreDeSitio = row["nombre_sitio"].ToString();
+                    string descripcionSitio = row["descripcion_sitio"].ToString();
+                    string descripcionCortaSitio = row["descripcion_corta_sitio"].ToString();
+                    string equipamentoSitio = row["equipamento"].ToString();
+                    string recomendacionSitio = row["recomendacion"].ToString();
+                    string IndicacionesSitio = row["indicaciones"].ToString();
+
+
+                    string DatosnombreSitio = metodosMovile.pa_Traducir(nombreDeSitio, "es", "ru");
+                    string DatosDescripcionTraducida = metodosMovile.pa_Traducir(descripcionSitio, "es", "ru");
+                    string DatosDescripcionCortaTraducida = metodosMovile.pa_Traducir(descripcionCortaSitio, "es", "ru");
+                    string DatosEquipamentoTraducido = metodosMovile.pa_Traducir(equipamentoSitio, "es", "ru");
+                    string DatosRecomendacionTraducida = metodosMovile.pa_Traducir(recomendacionSitio, "es", "ru");
+                    string DatosIndicacionesTraducida = metodosMovile.pa_Traducir(IndicacionesSitio, "es", "ru");
+
+                    string descSitioTraducida = DatosDescripcionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaSitioTraducida = DatosDescripcionCortaTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoSitioTraducida = DatosEquipamentoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionesSitioTraducida = DatosRecomendacionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string IndicacionesSitioTraducida = DatosIndicacionesTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+
+                    InsertaTraduccion("2", idSitio, DatosnombreSitio, "ru", "nombre_sitio");
+                    InsertaTraduccion("2", idSitio, descSitioTraducida, "ru", "descripcion_sitio");
+                    InsertaTraduccion("2", idSitio, DescCortaSitioTraducida, "ru", "descripcion_corta_sitio");
+                    InsertaTraduccion("2", idSitio, equipamentoSitioTraducida, "ru", "equipamento");
+                    InsertaTraduccion("2", idSitio, recomendacionesSitioTraducida, "ru", "recomendacion");
+                    InsertaTraduccion("2", idSitio, IndicacionesSitioTraducida, "ru", "indicaciones");
+
+                    GeneraAudio("sitio", idSitio, "descripcion_sitio", DatosDescripcionTraducida, "ru");
+                    GeneraAudio("sitio", idSitio, "descripcion_corta_sitio", DatosDescripcionCortaTraducida, "ru");
+                    GeneraAudio("sitio", idSitio, "equipamento", DatosEquipamentoTraducido, "ru");
+                    GeneraAudio("sitio", idSitio, "recomendacion", DatosRecomendacionTraducida, "ru");
+                    GeneraAudio("sitio", idSitio, "indicaciones", DatosIndicacionesTraducida, "ru");
+                }
+
+                messageReturn response = new messageReturn();
+             
+                response.Message = "Creando audios"; 
+
+
+                //return response;
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                return json;
+
+            }
+            else
+            {
+
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Sitio_Idioma_TR/{IdSitio}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposSitioIdiomaTR(string idSitio, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+
+                DataSet dataSet = metodosMovile.pa_Consulta_SitioIdiomaXId(idSitio);
+
+
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreDeSitio = row["nombre_sitio"].ToString();
+                    string descripcionSitio = row["descripcion_sitio"].ToString();
+                    string descripcionCortaSitio = row["descripcion_corta_sitio"].ToString();
+                    string equipamentoSitio = row["equipamento"].ToString();
+                    string recomendacionSitio = row["recomendacion"].ToString();
+                    string IndicacionesSitio = row["indicaciones"].ToString();
+
+
+                    string DatosnombreSitio = metodosMovile.pa_Traducir(nombreDeSitio, "es", "tr");
+                    string DatosDescripcionTraducida = metodosMovile.pa_Traducir(descripcionSitio, "es", "tr");
+                    string DatosDescripcionCortaTraducida = metodosMovile.pa_Traducir(descripcionCortaSitio, "es", "tr");
+                    string DatosEquipamentoTraducido = metodosMovile.pa_Traducir(equipamentoSitio, "es", "tr");
+                    string DatosRecomendacionTraducida = metodosMovile.pa_Traducir(recomendacionSitio, "es", "tr");
+                    string DatosIndicacionesTraducida = metodosMovile.pa_Traducir(IndicacionesSitio, "es", "tr");
+
+                    string descSitioTraducida = DatosDescripcionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaSitioTraducida = DatosDescripcionCortaTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoSitioTraducida = DatosEquipamentoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionesSitioTraducida = DatosRecomendacionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string IndicacionesSitioTraducida = DatosIndicacionesTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+
+                    InsertaTraduccion("2", idSitio, DatosnombreSitio, "tr", "nombre_sitio");
+                    InsertaTraduccion("2", idSitio, descSitioTraducida, "tr", "descripcion_sitio");
+                    InsertaTraduccion("2", idSitio, DescCortaSitioTraducida, "tr", "descripcion_corta_sitio");
+                    InsertaTraduccion("2", idSitio, equipamentoSitioTraducida, "tr", "equipamento");
+                    InsertaTraduccion("2", idSitio, recomendacionesSitioTraducida, "tr", "recomendacion");
+                    InsertaTraduccion("2", idSitio, IndicacionesSitioTraducida, "tr", "indicaciones");
+
+                    GeneraAudio("sitio", idSitio, "descripcion_sitio", DatosDescripcionTraducida, "tr");
+                    GeneraAudio("sitio", idSitio, "descripcion_corta_sitio", DatosDescripcionCortaTraducida, "tr");
+                    GeneraAudio("sitio", idSitio, "equipamento", DatosEquipamentoTraducido, "tr");
+                    GeneraAudio("sitio", idSitio, "recomendacion", DatosRecomendacionTraducida, "tr");
+                    GeneraAudio("sitio", idSitio, "indicaciones", DatosIndicacionesTraducida, "tr");
+                }
+           
+
+                messageReturn response = new messageReturn();
+              
+                response.Message = "Creando audios"; 
+
+
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                return json;
+
+            }
+            else
+            {
+
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Traducir_Campos_Sitio_Idioma_DE/{IdSitio}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string TraducirCamposSitioIdiomaDE(string idSitio, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+
+                DataSet dataSet = metodosMovile.pa_Consulta_SitioIdiomaXId(idSitio);
+
+
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+
+                    DataRow row = dataSet.Tables[0].Rows[2];
+                    string nombreDeSitio = row["nombre_sitio"].ToString();
+                    string descripcionSitio = row["descripcion_sitio"].ToString();
+                    string descripcionCortaSitio = row["descripcion_corta_sitio"].ToString();
+                    string equipamentoSitio = row["equipamento"].ToString();
+                    string recomendacionSitio = row["recomendacion"].ToString();
+                    string IndicacionesSitio = row["indicaciones"].ToString();
+
+
+                    string DatosnombreSitio = metodosMovile.pa_Traducir(nombreDeSitio, "es", "de");
+                    string DatosDescripcionTraducida = metodosMovile.pa_Traducir(descripcionSitio, "es", "de");
+                    string DatosDescripcionCortaTraducida = metodosMovile.pa_Traducir(descripcionCortaSitio, "es", "de");
+                    string DatosEquipamentoTraducido = metodosMovile.pa_Traducir(equipamentoSitio, "es", "de");
+                    string DatosRecomendacionTraducida = metodosMovile.pa_Traducir(recomendacionSitio, "es", "de");
+                    string DatosIndicacionesTraducida = metodosMovile.pa_Traducir(IndicacionesSitio, "es", "de");
+
+                    string descSitioTraducida = DatosDescripcionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string DescCortaSitioTraducida = DatosDescripcionCortaTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string equipamentoSitioTraducida = DatosEquipamentoTraducido.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string recomendacionesSitioTraducida = DatosRecomendacionTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+                    string IndicacionesSitioTraducida = DatosIndicacionesTraducida.Replace("with", "[with]").Replace("of", "[of]").Replace("'", "");
+
+
+                    InsertaTraduccion("2", idSitio, DatosnombreSitio, "de", "nombre_sitio");
+                    InsertaTraduccion("2", idSitio, descSitioTraducida, "de", "descripcion_sitio");
+                    InsertaTraduccion("2", idSitio, DescCortaSitioTraducida, "de", "descripcion_corta_sitio");
+                    InsertaTraduccion("2", idSitio, equipamentoSitioTraducida, "de", "equipamento");
+                    InsertaTraduccion("2", idSitio, recomendacionesSitioTraducida, "de", "recomendacion");
+                    InsertaTraduccion("2", idSitio, IndicacionesSitioTraducida, "de", "indicaciones");
+
+                    GeneraAudio("sitio", idSitio, "descripcion_sitio", DatosDescripcionTraducida, "de");
+                    GeneraAudio("sitio", idSitio, "descripcion_corta_sitio", DatosDescripcionCortaTraducida, "de");
+                    GeneraAudio("sitio", idSitio, "equipamento", DatosEquipamentoTraducido, "de");
+                    GeneraAudio("sitio", idSitio, "recomendacion", DatosRecomendacionTraducida, "de");
+                    GeneraAudio("sitio", idSitio, "indicaciones", DatosIndicacionesTraducida, "de");
+                }
+            
+
+                messageReturn response = new messageReturn();
+            
+                response.Message = "Creando audios";
+
+
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                return json;
+
+            }
+            else
+            {
+
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+        [OperationContract]
+        [WebGet(UriTemplate = "Movile_Generar_Audios_Sitios/{idSitio}/{idCircuito}/{TokenApi}", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public string GenerarAudiosSitios(string idSitio, string idCircuito, string TokenApi)
+        {
+            string Desencripta = Encriptacion.Cifrado(Encriptacion.Operacion.Desencripta, Herramienta.TraerConfiguracion("TokenApp"));
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            if (TokenApi == Desencripta)
+            {
+
+                string[] idiomas = { "de", "en", "es", "fr", "it", "ja", "pt", "ru", "tr" };
+
+                DataSet dataSet = metodosMovile.pa_Consulta_SitioIdiomaXId(idSitio);
+
+
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count >= 3)
+                {
+                    DataRow row = dataSet.Tables[0].Rows[0];
+                    for (int i = 0; i < idiomas.Length; i++)
+                    {
+                        DataRow datarow = dataSet.Tables[0].Rows[i];
+                      
+                        string descripcionSitio = datarow["descripcion_sitio"].ToString();
+                        string descripcionCortaSitio = datarow["descripcion_corta_sitio"].ToString();
+                        string equipamentoSitio = datarow["equipamento"].ToString();
+                        string recomendacionSitio = datarow["recomendacion"].ToString();
+                        string IndicacionesSitio = datarow["indicaciones"].ToString();
+
+                     
+                        string idioma = idiomas[i];
+                        
+                        GeneraAudio("sitio", idSitio, "descripcion_sitio", descripcionSitio, idioma);
+                        GeneraAudio("sitio", idSitio, "descripcion_corta_sitio", descripcionCortaSitio, idioma);
+                        GeneraAudio("sitio", idSitio, "equipamento", equipamentoSitio, idioma);
+                        GeneraAudio("sitio", idSitio, "recomendacion", recomendacionSitio, idioma);
+                        GeneraAudio("sitio", idSitio, "indicaciones", IndicacionesSitio, idioma);
+                       
+                    }
+                }
+                string nombreSitioEncontrado = string.Empty;
+                string siguienteIdSitio = string.Empty;
+                DataSet ds = metodosMovile.pa_Consulta_SiguienteIdSitio_Value(idCircuito);
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds.Tables[0].Columns.Contains("id_sitio"))
+                    {
+                        siguienteIdSitio = ds.Tables[0].Rows[0]["id_sitio"].ToString();
+                    }
+                    else if (ds.Tables[0].Columns.Contains("colum1"))
+                    {
+                        siguienteIdSitio = ds.Tables[0].Rows[0]["colum1"].ToString();
+                    }
+                }
+                else
+                {
+                    siguienteIdSitio = "0";
+                }
+               
+
+                DataSet nombreSitio = metodosMovile.pa_Consulta_Nombre_SitioXId(siguienteIdSitio);
+                
+                if (nombreSitio.Tables.Count > 0 && nombreSitio.Tables[0].Rows.Count > 2)
+                {
+                    if (nombreSitio.Tables[0].Rows[2]["nombre_sitio"] != DBNull.Value)
+                    {
+                        nombreSitioEncontrado = nombreSitio.Tables[0].Rows[2]["nombre_sitio"].ToString();
+                    }
+                    else
+                    {
+
+                        nombreSitioEncontrado = "Nombre de Sitio No Encontrado";
+                    }
+                }
+                else
+                {
+
+                    nombreSitioEncontrado = "Nombre de Sitio No Encontrado";
+                }
+
+
+                DataSet nombreCiudad = metodosMovile.pa_Consulta_Nombre_CircuitoXId(idCircuito);
+                string nombreCircuitoEncontrado = nombreCiudad.Tables[0].Rows[2]["nombre_circuito"].ToString();
+
+                messageReturn response = new messageReturn();
+                response.NextIdSitio = siguienteIdSitio;
+                response.NextNombreSitio = nombreSitioEncontrado;
+                response.NombreCircuito = nombreCircuitoEncontrado;
+                response.idCircuito = idCircuito;
+                response.Message = "Creando audios de "+nombreSitioEncontrado;
+
+
+                string json = JsonConvert.SerializeObject(response, Formatting.None);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(json);
+                Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
+
+                return json;
+            }
+            else
+            {
+                
+                return "{resultado:Error token cliente}";
+            }
+        }
+
+      
+        public DataTable ConvertirCadenaTablaSitio(string inputText)
+        {
+            
+            string[] rows = inputText.Replace("1-", "").Replace("2-", "").Replace("3-", "").Replace("4-", "").Replace("5-", "").Split('|');
+          
+            DataTable dtValores = new DataTable();
+          
+            if (dtValores.Columns.Count == 0)
+            {
+               
+                dtValores.Columns.Add("descripcion");
+                dtValores.Columns.Add("descripcion_corta_sitio");
+                dtValores.Columns.Add("equipamento");
+                dtValores.Columns.Add("recomendaciones");
+                dtValores.Columns.Add("indicaciones");
+            }
+
+            DataRow dataRow = dtValores.NewRow();
+         
+            for (int i = 0; i < rows.Length; i++)
+            {
+                if (i < dtValores.Columns.Count)
+                {
+                    dataRow[i] = rows[i].Trim();
+                }
+            }
+            
+            dtValores.Rows.Add(dataRow);
+
+            return dtValores;
+        }
+
+        public void InsertaTraduccion(string bandera, string Id, string texto, string idiomaDestino, string campo)
+        {
+
+            MetodosMovile metodosMovile = new MetodosMovile();
+
+            metodosMovile.au_Traducir_Texto(bandera, Id, texto, idiomaDestino, campo);
 
         }
 
+        public void GeneraAudio (string tabla,string clave,string campo,string cadena,string idioma)
+        {
+            ATT_WS.AppToTripWSSoapClient objWs = new ATT_WS.AppToTripWSSoapClient();
+
+            objWs.GeneraStream(tabla, clave, campo, cadena, idioma);
+        }
+
+        public List<string> BuscarLugaresDestacados(string nombreCiudad)
+        {
+            List<string> lugaresDestacados = new List<string>();
+
+            string queryString = $"query=Lugares destacados en {nombreCiudad}&key=AIzaSyD_BcdT_heUpoSU7iFbndqI_rxmMbFsHAA";
+
+            string requestUrl = $"https://maps.googleapis.com/maps/api/place/textsearch/json?{queryString}";
+            HttpClient client = new HttpClient();
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+            HttpResponseMessage response = client.GetAsync(requestUrl).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                string responseContent = response.Content.ReadAsStringAsync().Result;
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                dynamic jsonData = Newtonsoft.Json.JsonConvert.DeserializeObject(responseContent);
+
+                foreach (var result in jsonData.results)
+                {
+                    string name = result.name;
+                    lugaresDestacados.Add(name);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Error en la solicitud: {response.StatusCode}");
+            }
+            return lugaresDestacados;
+        }
+        public static string ConsumeTripAdvisorAPI(string location)
+        {
+            var apiKey = "705F38C37D2D4FB6B3F5B556559073EA"; 
+
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", apiKey);
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"https://api.content.tripadvisor.com/api/v1/location/search?key={apiKey}&searchQuery={location}&language=es"),
+                Headers =
+        {
+            { "accept", "application/json" },
+        },
+            };
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+            using (var response = client.SendAsync(request).Result)
+            {
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                response.EnsureSuccessStatusCode();
+                var responseBody = response.Content.ReadAsStringAsync().Result;
+                return responseBody;
+            }
+        }
 
         public string ConsumeGpt(string promptIn)
         {
 
-            //sk - iLKJz6pnOvQsxza6LOreT3BlbkFJ0X2uMKiBnt3IyZZ08VRQ
-            // var apiKey = "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";
-            var apiKey = "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";// Reemplace "SU_API_KEY" con su clave de API válida
-            var prompt = promptIn; // Reemplace con su texto de entrada
+           
+            var apiKey = "aqui va la apikey";
+            var prompt = promptIn; 
             var message = new
             {
                 content = prompt,
@@ -953,15 +3018,14 @@ namespace Rest_Movile
             {
                 messages = new List<object> { message },
                 max_tokens = 2500,
-                temperature = 0.5,
+                temperature = 0.1,
                 top_p = 1,
                 frequency_penalty = 0,
                 presence_penalty = 0,
-                model = "gpt-3.5-turbo-16k"
+                model = "gpt-4"
+                //model = "gpt-3.5-turbo-16k"
             };
-            //Modelos
-            //"text-davinci-003"
-            //"gpt-3.5-turbo"
+          
             var requestBodyJson = System.Text.Json.JsonSerializer.Serialize(requestBody);
             System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
             var response = client.PostAsync("https://api.openai.com/v1/chat/completions", new StringContent(requestBodyJson, System.Text.Encoding.UTF8, "application/json")).Result;
@@ -973,193 +3037,35 @@ namespace Rest_Movile
         }
 
 
-        public void ConsultaSitios(string idCircuito)
+        public Coordenadas BuscarCoordenadas(string nombreSitio, string nombreCiudad)
         {
-            MetodosMovile metodosMovile = new MetodosMovile();
-            try
+            string apiKey = "AIzaSyD_BcdT_heUpoSU7iFbndqI_rxmMbFsHAA";
+            string addres = $"{nombreSitio}, {nombreCiudad}";
+            string url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addres + "&key=" + apiKey;
+            using (HttpClient client = new HttpClient())
             {
-                int OrdenImagenSitio = 1;
-                int Orden = 1;
-                //NombreSitio = NombreSitio;
-                ResultadoConcat = ResultadoConcat;
-                string[] SinDay = NombreSitio.Split(',');
-                string nombreciudad = SinDay[0];
+                HttpResponseMessage response = client.GetAsync(url).Result;
 
-                string preguntaSitio = "DADO EL SIGUIENTE EJEMPLO:" +
-                       "Viaducto|Parque de Bolivar|Ukumari|Museo del Arte Moderno de Pereira|Parque Consotá|Réplica de Pereira " +
-                       "QUIERO OBTENER SITIOS CULTURALES SIMILARES COMO EN EL EJEMPLO PERESENTADO Y EN ESE MISMO FORMATO, PERO PARA EL LUGAR DE rplcnombresitio DIAS PARA VISITAR LOS SITIOS, " +
-                       "TIENE QUE TENER ESA MISMA ESTRUCTURA DE EJEMPLO PERO CON SITIOS DEL LUGAR QUE HE PEDIDO :" + nombreciudad +
-                       "Y CERRAR CON |";
-
-                string PreguntaNombreSitios = preguntaSitio.Replace("rplcnombresitio", ResultadoConcat);
-                string RespuestaNameSites = ConsumeGpt(PreguntaNombreSitios);
-                string[] SitesName = RespuestaNameSites.Split('|');
-                HashSet<string> SitesUnicos = new HashSet<string>();
-                foreach (string sitio in SitesName)
-                //Recorre sitesName y verifica si no hay sitios repetidos agrega
+                if (response.IsSuccessStatusCode)
                 {
-                    if (!SitesUnicos.Contains(sitio))
+                    string responseContent = response.Content.ReadAsStringAsync().Result;
+                    dynamic jsonData = Newtonsoft.Json.JsonConvert.DeserializeObject(responseContent);
+                    double latitud = jsonData.results[0].geometry.location.lat;
+                    double longitud = jsonData.results[0].geometry.location.lng;
+
+                    Coordenadas coordenadas = new Coordenadas
                     {
-                        SitesUnicos.Add(sitio);
-
-                        // Verificar si se ha alcanzado el límite de 50 sitios
-                        if (SitesUnicos.Count > 45)
-                        {
-                            break;
-                        }
-                    }
+                        Latitud = latitud.ToString(),
+                        Longitud = longitud.ToString()
+                    };
+                    return coordenadas;
                 }
-                string[] SitesNames = SitesUnicos.ToArray();
-
-                //Recorre la lista de SitesNames para buscar info de cada sitio
-                foreach (string sitio in SitesNames)
+                else
                 {
-
-                    string PreguntaDescSitio = "Ponte en el papel de un buen GUIA DE TURISMO HACIENDO REFERENCIA EN ESTE ORDEN A  LATITUD, LONGITUD, DESCRIPCION JOCOSA EXTENDIDA, DESCRIPCION CORTA, EQUIPAMIENTO, RECOMENDACIONES Y INDICACIONES COMO EN EL SIGUIENTE EJEMPLO: " +
-                       "4.8083° N|" +
-                       "75.6964° W|" +
-                       "El Viaducto de Pereira es una impresionante estructura vial que atraviesa la ciudad. Con su diseño arquitectónico único y sus vistas panorámicas, es un punto de referencia emblemático.El Viaducto de Pereira es una impresionante estructura vial que atraviesa la ciudad. Con su diseño arquitectónico único y sus vistas panorámicas, es un punto de referencia emblemático que ofrece diversas actividades y atracciones para los visitantes,el Viaducto de Pereira ofrece impresionantes vistas de la ciudad y sus alrededores. Puedes disfrutar de paisajes urbanos, montañas y valles mientras caminas o conduces a lo largo del viaducto.Puedes caminar, correr o andar en bicicleta mientras disfrutas del entorno escénico.|" +
-                       "Una estructura vial icónica.|" +
-                       "Cámara fotográfica, protector solar, calzado cómodo.|" +
-                       "Disfruta de la vista panorámica y captura fotos increíbles.|" +
-                       "El viaducto se encuentra en el centro de la ciudad de Pereira, conectando diferentes sectores y facilitando el tránsito entre ellos.| " +
-                    "QUIERO OBTENER  ESPECIFICACIONES COMO LAS DEL EJEMPLO PERO CON EL CONTENIDO DEL SITIO QUE HE PEDIDO: " + sitio + " de " + nombreciudad +
-                   " TIENE QUE TENER ESA MISMA ESTRUCTURA DEL SITIO QUE PEDÍ, A CADA PUNTO SEPARARSE CON | COMO EN EL EJEMPLO PRESENTADO";
-
-                    //ES DE GRAN IMPORTANCIA QUE SEPARES CADA ESPECIFICACION CON | EXACTAMENTE IGUAL A COMO ESTA EN EL EJEMPLO PRESENTADO
-                    Coordenadas Coordenada = BuscarCoordenadas(sitio, nombreciudad);
-                    if (Coordenada != null)
-                    {
-                        string latitud = Coordenada.Latitud.Replace(",", ".");
-                        string longitud = Coordenada.Longitud.Replace(",", "."); ;
-
-
-                        string RespuestaDesSitio = ConsumeGpt(PreguntaDescSitio);
-                        DataTable dtInfoSitio = ConvertirCadenaTablaSitio(RespuestaDesSitio);
-                        string idSitio = InsertaSitio(idCircuito, sitio, Orden, dtInfoSitio, latitud, longitud);
-
-                        // Obtener la imagen del sitio
-                        //string imageUrl = buscarImagen(sitio);
-                        // Insertar la imagen del sitio
-                        string respuestaImagen = buscarImagen(sitio);
-                        metodosMovile.InsertarImagenSitio(respuestaImagen, respuestaImagen, OrdenImagenSitio, idSitio);
-                        OrdenImagenSitio++;
-                        //string ResponseImg = buscarImagen(sitio);
-                        //InsertaImagenSitio(idSitio, OrdenImagenSitio, ResponseImg);
-                        //OrdenImagenSitio++;
-                    }
-                    Orden++;
-
+                    return null;
                 }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
             }
         }
-
-
-        public DataTable ConvertirCadenaTablaCircuito(string inputText)
-        {
-            //string[] delimiters = { "|", "\n\n" };
-            string[] rows = inputText.Split('|');
-            //string[] rows = inputText.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-
-            DataTable dtValores = new DataTable();
-            // Agregar las columnas al DataTable si no están presentes
-            if (dtValores.Columns.Count == 0)
-            {
-                dtValores.Columns.Add("Coordenada");
-                dtValores.Columns.Add("Descripción Jocosa Extendida");
-                dtValores.Columns.Add("Descripción Corta");
-                dtValores.Columns.Add("Contexto");
-                dtValores.Columns.Add("Equipamiento");
-                dtValores.Columns.Add("Recomendaciones");
-
-            }
-
-            DataRow dataRow = dtValores.NewRow();
-            // Agregar los valores a la fila
-            for (int i = 0; i < rows.Length; i++)
-            {
-                if (i < dtValores.Columns.Count)
-                {
-                    dataRow[i] = rows[i].Trim();
-                }
-            }
-            // Agregar la fila al DataTable
-            dtValores.Rows.Add(dataRow);
-
-            return dtValores;
-        }
-
-        public DataTable ConvertirCadenaTablaSitio(string inputText)
-        {
-            //string[] delimiters = { "|", "\n\n" };
-            string[] rows = inputText.Split('|');
-            //string[] rows = inputText.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-
-            DataTable dtValores = new DataTable();
-            // Agregar las columnas al DataTable si no están presentes
-            if (dtValores.Columns.Count == 0)
-            {
-                dtValores.Columns.Add("latitud");
-                dtValores.Columns.Add("longitud");
-                dtValores.Columns.Add("descripcion");
-                dtValores.Columns.Add("descripcion_corta_sitio");
-                dtValores.Columns.Add("equipamento");
-                dtValores.Columns.Add("recomendaciones");
-                dtValores.Columns.Add("indicaciones");
-            }
-
-            DataRow dataRow = dtValores.NewRow();
-            // Agregar los valores a la fila
-            for (int i = 0; i < rows.Length; i++)
-            {
-                if (i < dtValores.Columns.Count)
-                {
-                    dataRow[i] = rows[i].Trim();
-                }
-            }
-            // Agregar la fila al DataTable
-            dtValores.Rows.Add(dataRow);
-
-            return dtValores;
-        }
-
-        public DataTable ConvertCadenaTabla(string inputText, int indice)
-        {
-            string[] rows = inputText.Split('|');
-
-            string[] rowsOrdenado = new string[rows.Length];
-            //OrdenarDescendente(rows);
-            List<string> lstRows = new List<string>(rows.Length);
-            int j = 0;
-
-            foreach (string variable in rows)
-            {
-                if (variable != "" && !variable.Contains("-"))
-                {
-                    rowsOrdenado[j] = variable;
-                    j++;
-                }
-            }
-            DataTable dtValores = new DataTable();
-            for (int i = 0; i < indice; i++)
-            {
-                string columnName = rowsOrdenado[i].Trim();
-                dtValores.Columns.Add(columnName);
-            }
-            DataRow dataRow = dtValores.NewRow();
-            for (int i = 0; i < indice; i++)
-            {
-                dataRow[i] = rowsOrdenado[i + indice].Trim();
-            }
-            dtValores.Rows.Add(dataRow);
-            return dtValores;
-
-        }
-
 
         public string buscarImagen(string lugar)
         {
@@ -1170,7 +3076,7 @@ namespace Rest_Movile
 
                 string apiUrl = "images";
 
-                client.DefaultRequestHeaders.Add("X-API-KEY", "6399f4cb8b65102b606805fc779334118b633714");
+                client.DefaultRequestHeaders.Add("X-API-KEY", "8a067c27e64529ee48d7ddcf9195d24823694976");
 
                 var body = new { q = lugar };
                 var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(body), System.Text.Encoding.UTF8, "application/json");
@@ -1191,147 +3097,6 @@ namespace Rest_Movile
                 {
                     return null;
                 }
-            }
-        }
-
-        //public Coordenadas BuscarCoordenadas(string direccion, string direccionCiudad)
-        //{
-        //    //string[] SinNumerico = ResultadoConcat.Split(',');
-        //    //string direccionComplete = SinNumerico[0] ;
-
-        //    IGeocoder geocoder = new GoogleGeocoder("AIzaSyD_BcdT_heUpoSU7iFbndqI_rxmMbFsHAA");
-        //    IEnumerable<Address> approximateLocations = geocoder.GeocodeAsync(direccion + "," + direccionCiudad).GetAwaiter().GetResult();
-        //    Address address = approximateLocations.FirstOrDefault();
-
-        //    if (address != null)
-        //    {
-        //        Coordenadas coordenadas = new Coordenadas
-        //        {
-        //            Latitud = address.Coordinates.Latitude.ToString(),
-        //            Longitud = address.Coordinates.Longitude.ToString()
-        //        };
-
-        //        return coordenadas;
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        ///clsCircuitos objCircuitosInd = new clsCircuitos();
-
-
-        //metodo generaCircuitos
-
-        //public string GeneraCircuito(string nameCity, string nameCountry, string ParEntrada)
-        //{
-
-        //}
-
-
-        public Coordenadas BuscarCoordenadas(string nombreSitio, string nombreCiudad)
-        {
-            string apiKey = "AIzaSyD_BcdT_heUpoSU7iFbndqI_rxmMbFsHAA";
-            string addres = $"{nombreSitio}, {nombreCiudad}";
-            string url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addres + "&key=" + apiKey;
-            using (HttpClient client = new HttpClient())
-            {
-                HttpResponseMessage response = client.GetAsync(url).Result;
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseContent = response.Content.ReadAsStringAsync().Result;
-                    dynamic jsonData = Newtonsoft.Json.JsonConvert.DeserializeObject(responseContent);
-                    double latitud = jsonData.lat;
-                    double longitud = jsonData.lng;
-
-                    Coordenadas coordenadas = new Coordenadas
-                    {
-                        Latitud = latitud.ToString(),
-                        Longitud = longitud.ToString()
-                    };
-                    return coordenadas;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-              
-                public string ActivarCircuito(string idCircuito)
-        {
-            MetodosMovile metodosMovile = new MetodosMovile();
-            clsOperacionUsuario objCircuitos = new clsOperacionUsuario();
-            try
-            {
-                string Expresion = "id_circuito = " + idCircuito;
-                DataTable dtCircuitos = (DataTable)HttpContext.Current.Session["dtCircuitos"];
-                DataRow[] dr = dtCircuitos.Select(Expresion);
-                if (dr[0]["estado_circuito"].ToString() == "0" || dr[0]["estado_circuito"].ToString() == "3")
-                {
-                    bool banImg = true;
-                    bool banValGrl = true;
-                    StringBuilder Mensaje = new StringBuilder();
-                    StringBuilder MensajeImg = new StringBuilder();
-                    DataTable dtSitios = ConsultaSitiosXCircuito(idCircuito);
-                    foreach (DataRow drs in dtSitios.Rows)
-                    {
-                        if (drs["contImagenes"].ToString() == "0")
-                        {
-                            MensajeImg.AppendLine(drs["nombre_sitio"].ToString() + "</br>");
-                        }
-                    }
-                    if (!banImg)
-                    {
-                        return "0|Cada sitio de este circuito debe tener por lo menos una imágen";
-                    }
-                    else
-                    {
-                        if (dr[0]["imagen"].ToString() == "")
-                        {
-                            return "0|El circuito debe tener una imágen de referencia";
-                        }
-                        if (dr[0]["ContSitios"].ToString() == "0")
-                        {
-                            return "0|El circuito debe tener por lo menos un sitio relacionado";
-                        }
-                    }
-                    if (banImg && banValGrl)
-                    {
-                        metodosMovile.ActualizaEstadoCircuito(idCircuito, "3");
-                        HttpContext.Current.Session["dtCircuitos"] = objCircuitos.ConsultaCircuitos("es", HttpContext.Current.Session["idUsuario"].ToString());
-                        return "1|Circuito activado correctamente";
-                    }
-                    else
-                    {
-                        return "0|Ha ocurrido un error activando el circuito.";
-                    }
-                }
-                else
-                {
-                    return "0|Ha ocurrido un error activando el circuito.";
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
-
-        public DataTable ConsultaSitiosXCircuito(string IdCircuito)
-        {
-            clsOperacionUsuario objCircuitos = new clsOperacionUsuario();
-            try
-            {
-                return objCircuitos.ConsultaSitios("es", IdCircuito);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
             }
         }
 
@@ -1392,8 +3157,69 @@ namespace Rest_Movile
             public string Latitud { get; set; }
             public string Longitud { get; set; }
         }
-        //HASTA AQUI
-    }
 
+        public class CircuitoReturn
+        {
+            public string IdCircuito { get; set; }
+            public string NombreSitio { get; set; }
+            public string Mensaje { get; set; }
+            public string Img { get; set; }
+            public int numDia { get; set; }
+        }
+
+        public class TraduccionReturn
+        {
+            public string Mensaje { get; set; }
+            public string IdCircuito { get; set; }
+        }
+
+        public class TraduccionReturnSitio
+        {
+            public string Mensaje { get; set; }
+            public string IdSitio { get; set; }
+            public string IdCircuito { get; set; }
+            public string Img { get; set; }
+        }
+        public class ConsultaSitiosReturn
+        {
+            public string Mensaje { get; set; }
+            public string PrimerNombre { get; set; }
+            public string PrimerIdSitio { get; set; }
+            public string idCircuito { get; set; }
+            public int cantidad { get; set; }
+        }
+
+        public class messageReturn
+        {
+            public string Message { get; set; }
+            public string NextIdSitio { get; set; }
+            public string NextNombreSitio { get; set; }
+            public string NombreCircuito { get; set; }
+            public string idCircuito { get; set; }
+
+        }
+        public class Address
+        {
+            public string street1 { get; set; }
+            public string street2 { get; set; }
+            public string city { get; set; }
+            public string country { get; set; }
+            public string address_string { get; set; }
+            public string postalcode { get; set; }
+        }
+
+        public class Location
+        {
+            public string location_id { get; set; }
+            public string name { get; set; }
+            public Address address_obj { get; set; }
+        }
+
+        public class Root
+        {
+            public List<Location> data { get; set; }
+        }
+
+    }
 
 }
