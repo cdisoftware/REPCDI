@@ -2926,7 +2926,7 @@ namespace Rest_Movile
 
             return dtValores;
         }
-
+        //algo
         public void InsertaTraduccion(string bandera, string Id, string texto, string idiomaDestino, string campo)
         {
 
